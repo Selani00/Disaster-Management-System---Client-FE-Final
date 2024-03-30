@@ -46,7 +46,7 @@ const NormalSignUp = () => {
 
       setLoading(false);
       if(res.ok){
-        navigate('/');
+        navigate('/Login');
       }
 
 

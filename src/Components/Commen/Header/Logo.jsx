@@ -6,10 +6,10 @@ import { TextInput } from "flowbite-react";
 const Logo = () => {
   return (
     <>
-      <div class="relative  overflow-hidden bg-white px-8 py-2">
-        <div class="-mx-4 flex flex-wrap items-center">
-          <div class="w-full px-4 lg:w-1/2 md:w-1/2">
-            <div class="text-center ">
+      <div className="relative  overflow-hidden bg-white px-8 py-2">
+        <div className="-mx-4 flex flex-wrap items-center">
+          <div className="w-full px-4 lg:w-1/2 md:w-1/2">
+            <div className="text-center ">
               <a
                 href="/"
                 className="lg:text-2xl text-lg italic font-medium flex items-center space-x-3 text-primary"
