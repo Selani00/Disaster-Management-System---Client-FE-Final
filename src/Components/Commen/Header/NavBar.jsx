@@ -21,7 +21,7 @@ const NavBar = () => {
 
         {currentUser ? (
           <>
-          <h1 className="text-center items-center justify-center text-white font-semibold text-lg p-2">Hi,{currentUser.userName}</h1>
+          <h1 className="text-center items-center justify-center text-white font-semibold text-lg p-1">Hi,{currentUser.userName}</h1>
           <Dropdown
             arrowIcon={false}
             inline
