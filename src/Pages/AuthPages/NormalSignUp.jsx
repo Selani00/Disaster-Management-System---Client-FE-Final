@@ -121,7 +121,7 @@ const NormalSignUp = () => {
                   <span className="pl-3">Loding</span>
                 </>
               ) : (
-                "Sign In"
+                "Sign Up"
               )}
               </button>
             </form>

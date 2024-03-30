@@ -1,11 +1,63 @@
-import React from "react";
+import {useState} from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
 import login from "../../assets/AuthPage/login.jpg";
-import { Label, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Label, TextInput,Spinner,Alert } from "flowbite-react";
+import { Link , useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo/logo.png";
 
 const NormalSignIn = () => {
+  const [formdata, setFormdata] = useState({});
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+    
+      !formdata.email ||
+      !formdata.password
+      
+    ) {
+      return setErrorMsg("All fields are required");
+    }
+
+    try {
+        setLoading(true);
+        setErrorMsg(null);
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formdata),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (data.success=== false) {
+        return setErrorMsg(data.message); 
+      }
+
+      setLoading(false);
+      if(res.ok){
+        navigate('/');
+      }
+
+
+    } catch (error) {
+        setErrorMsg(error.message);
+        setLoading(false);
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -23,12 +75,13 @@ const NormalSignIn = () => {
               <h1 className="mt-5 text-3xl">Welcome Again</h1>
             </div>
 
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <div>
                 <Label value="Your Email"></Label>
                 <TextInput
                   type="email"
                   placeholder="example@gmail.com"
+                  onChange={handleChange}
                   id="email"
                 />
               </div>
@@ -38,6 +91,7 @@ const NormalSignIn = () => {
                 <TextInput
                   type="password"
                   placeholder="************"
+                  onChange={handleChange}
                   id="password"
                 />
               </div>
@@ -47,13 +101,29 @@ const NormalSignIn = () => {
               </p>
 
               <button
-                type="button"
+                type="submit"
+                disabled={loading}
                 className="my-4 block w-full rounded bg-primary px-6 pb-2 pt-2.5 text-lg font-medium  leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] "
               >
-                Sign In
+                {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loding</span>
+                </>
+              ) : (
+                "Sign In"
+              )}
               </button>
 
-              <div className="flex justify-between">
+              
+            </form>
+            {errorMsg && (
+              <Alert className="mt-1" color="failure">
+                {errorMsg}
+              </Alert>
+            )}
+
+            <div className="flex justify-between">
                 <p className="justify-start text-sm">
                   Do not have an Account?{" "}
                 </p>
@@ -61,7 +131,6 @@ const NormalSignIn = () => {
                   <Link to="/Registration">Create Account</Link>
                 </p>
               </div>
-            </form>
           </div>
         </div>
       </div>
