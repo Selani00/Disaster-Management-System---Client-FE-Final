@@ -4,13 +4,14 @@ import login from "../../assets/AuthPage/login.jpg";
 import { Label, TextInput,Spinner,Alert } from "flowbite-react";
 import { Link , useNavigate } from "react-router-dom";
 import logo from "../../assets/Logo/logo.png";
+import {signInStart, signInSccuss,signInFailure} from "../../redux/user/userSlice";
+import { useDispatch,useSelector } from "react-redux"
 
 const NormalSignIn = () => {
   const [formdata, setFormdata] = useState({});
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+  const {loading, error: errorMessage} = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
@@ -25,12 +26,11 @@ const NormalSignIn = () => {
       !formdata.password
       
     ) {
-      return setErrorMsg("All fields are required");
+      return dispatch(signInFailure("All fields are required"));
     }
 
     try {
-        setLoading(true);
-        setErrorMsg(null);
+      dispatch(signInStart());
       const res = await fetch("http://localhost:5000/api/users/login", {
         method: "POST",
         headers: {
@@ -43,18 +43,18 @@ const NormalSignIn = () => {
       console.log(data);
 
       if (data.success=== false) {
-        return setErrorMsg(data.message); 
+        dispatch(signInFailure(data.message)); 
       }
 
-      setLoading(false);
+      
       if(res.ok){
+        dispatch(signInSccuss(data));
         navigate('/');
       }
 
 
     } catch (error) {
-        setErrorMsg(error.message);
-        setLoading(false);
+        dispatch(signInFailure(error.message));
     }
   };
 
@@ -117,9 +117,9 @@ const NormalSignIn = () => {
 
               
             </form>
-            {errorMsg && (
+            {errorMessage && (
               <Alert className="mt-1" color="failure">
-                {errorMsg}
+                {errorMessage}
               </Alert>
             )}
 
