@@ -7,6 +7,7 @@ import Plan from "./Pages/MainPages/Plan";
 import News from "./Pages/MainPages/News";
 import Donations from "./Pages/MainPages/Donations";
 import UserLogin from "./Pages/AuthPages/NormalSignIn";
+import UserRegistration from "./Pages/AuthPages/NormalSignUp";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Donations" element={<Donations />} />
 
         <Route path="/Login" element={<UserLogin/>} />
+        <Route path="/Registration" element={<UserRegistration/>} />
       </Routes>
     </BrowserRouter>
   );

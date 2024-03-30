@@ -8,7 +8,7 @@ import NavBar from "./NavBar";
 const MainNav = () => {
     
   return (
-    <div className="p-0 fixed w-full z-[999]">
+    <div className="p-0 fixed w-full z-[999] top-0">
       <Languages />
       <Logo />
       <NavBar/>
