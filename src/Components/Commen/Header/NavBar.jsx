@@ -1,18 +1,31 @@
 import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
 import { IoNotifications } from "react-icons/io5";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+
+  const handleClick = () => {
+    console.log("Hi I am in handle click");
+    
+    if(currentUser=== null){
+      navigate("/Login");
+    } else {
+      navigate("/Emargancy");
+    }
+  }
+  
   return (
     <Navbar className="bg-primary">
-      <Link to="/Emargancy">
-        <Button className="animate-blinkingBg text-white font-semibold ">
+      
+        <Button className="animate-blinkingBg text-white font-semibold " type="button" onClick={handleClick}>
           Emargancy
         </Button>
-      </Link>
+      
 
       <div className="flex gap-2 md:order-2">
         <div className="text-white border hover:border-white border-transparent  rounded-full p-2 transition duration-300 mr-5">
