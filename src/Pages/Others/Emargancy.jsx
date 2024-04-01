@@ -1,4 +1,4 @@
-import React from "react";
+import {useState,useEffect} from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
 import { FaMapMarkedAlt, FaMicrophone } from "react-icons/fa";
 import {
@@ -10,7 +10,51 @@ import {
   Textarea,
 } from "flowbite-react";
 
+
 const Emargancy = () => {
+  const [ipAddress, setIpAddress] = useState(""); 
+  const [geoInfo, setGeoInfo] = useState({});
+
+  useEffect(() => {
+    getVisitorIP();
+  }, []);
+
+  const getVisitorIP = async() => {
+    try{
+
+      const response = await fetch('https://api.ipify.org');
+      const data = await response.text();
+      setIpAddress(data);
+
+    }catch(error){
+      console.log(error);
+
+    }
+
+  }
+
+  const handleInputChange = (e) => {
+    setIpAddress(e.target.value);
+
+  }
+
+  const fetchIpInfo = async(e) => {
+    e.preventDefault();
+    try{
+      const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+      const data = await response.json();
+
+      setGeoInfo(data);
+      console.log(geoInfo.regionName);
+      
+
+    }catch(error){ 
+      console.log(error);
+     }
+
+     
+  };
+  
   return (
     <div className="">
       <NavBar />
@@ -18,7 +62,7 @@ const Emargancy = () => {
         <form className="p-5 bg-blue-100 text-gray-900 font-semibold text-base">
           <h1 className="text-center font-bold ">
             <span className="text-2xl md:text-5xl ">
-              Are you in a Emegancy?
+              Are you in a Emergency?
             </span>
             <br /> Let us know we will with you
           </h1>
@@ -35,14 +79,22 @@ const Emargancy = () => {
                   type="text"
                   placeholder="Current location"
                   className="flex-grow"
+                  value={ipAddress}
+                  onChange={handleInputChange}
                 />
                 <button
                   type="submit"
                   className="text-white bg-primary p-2 rounded-xl"
+                  onClick={fetchIpInfo}
                 >
-                  <FaMapMarkedAlt className=" h-5  w-5" />
+                  <FaMapMarkedAlt className="h-5  w-5" />
                 </button>
               </div>
+              {geoInfo.city && (
+                <div className="">
+                  City: {geoInfo.city}
+                </div>
+              )}
             </div>
           </div>
 
@@ -88,7 +140,6 @@ const Emargancy = () => {
           <div className="px-5 pb-5">
             <div>
               <Label value="Current Location"></Label>
-
               <div className="flex justify-between items-center gap-2">
                 <button
                   type="submit"
@@ -119,8 +170,7 @@ const Emargancy = () => {
               </div>
               <Textarea
                 id="message"
-                placeholder="Your message..."
-                
+                placeholder="Your message..."              
                 rows={4}
               />           
           </div>

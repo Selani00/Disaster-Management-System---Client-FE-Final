@@ -10,7 +10,7 @@ const NavBar = () => {
 
 
   const handleClick = () => {
-    console.log("Hi I am in handle click");
+    
     
     if(currentUser=== null){
       navigate("/Login");
