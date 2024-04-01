@@ -49,7 +49,7 @@ const ChatBot = () => {
           {/* {result && <div>{result}</div>} */}
           <div>
             {messages.map((message,i)=>(
-              <div key={i} className={`message ${i%2 == 0 ? 'right' : 'left'}`}>
+              <div key={i} className={`message ${i%2 == 0 ? 'right-0' : 'left-0'}`}>
                 <div className="bg-green-300 p-2 rounded-tr-xl rounded-bl-xl rounded-br-xl" style={{ width: 'fit-content' }}>{message.content}</div>
                 <br/>
                 <div className="bg-pink-300 p-2 rounded-tl-xl rounded-bl-xl rounded-br-xl" style={{ width: 'fit-content' }}>{message.result}</div>
@@ -58,7 +58,7 @@ const ChatBot = () => {
             ))}
           </div>
           
-          <div className="absolute Bottom-0 left-0 right-0 mb-4">
+          <div className="  mb-4">
             <div className="flex justify-between items-center gap-5">
               <TextInput
                 type="text"

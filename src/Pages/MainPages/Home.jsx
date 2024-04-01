@@ -1,6 +1,6 @@
 import React from 'react'
 import MainNav from '../../Components/Commen/Header/MainNav'
-import ChatBot from '../../Components/Home/ChatBot'
+import ChatBot from '../../Components/Home/TestChat'
 
 const Home = () => {
   return (
