@@ -10,7 +10,6 @@ import { FaUserAlt } from "react-icons/fa";
 const ChatBot = () => {
   const [showModel, setShowModel] = useState(false);
   const [content, setContent] = useState("");
-  const [result, setResult] = useState("");
   const [messages, setMessages] = useState([]);
 
   const handleClose = (e) => {
@@ -29,7 +28,7 @@ const ChatBot = () => {
         }
       );
 
-      setResult(response.data);
+ 
       const newMessage = { content: content, result: response.data };
       setMessages([...messages, newMessage]);
       setContent("");
