@@ -51,6 +51,7 @@ const showSlider = () => {
 };
 
 const Image_Slider = () => {
+
   const [timerEnabled, setTimerEnabled] = useState(true);
 
   useEffect(() => {
@@ -64,25 +65,23 @@ const Image_Slider = () => {
     };
   }, [timerEnabled]);
 
-  const Image_map = [
-    { image: image_1 },
-    { image: image_2 },
-    { image: image_3 },
-    { image: image_4 },
-  ];
+  
   return (
     <>
       <div className="relative">
         <ul id="slider">
-          {Image_map.map((item) => (
-            <li className="h-[60vh] relative ">
-              <img
-                src={item.image}
-                alt=""
-                className="w-full h-full object-cover inset-0"
-              />
-            </li>
-          ))}
+          <li className="h-[60vh] relative ">
+            <img src={image_1} alt="" className="w-full h-full object-cover inset-0" />
+          </li>
+          <li className="h-[60vh] relative hidden">
+            <img src={image_2} alt="" className="w-full h-full object-cover inset-0" />
+          </li>
+          <li className="h-[60vh] relative hidden">
+            <img src={image_3} alt="" className="w-full h-full object-cover inset-0" />
+          </li>
+          <li className="h-[60vh] relative hidden">
+            <img src={image_4} alt="" className="w-full h-full object-cover inset-0" />
+          </li>
         </ul>
 
         <div className="absolute px-3 flex h-full w-full top-0 left-0 ">
