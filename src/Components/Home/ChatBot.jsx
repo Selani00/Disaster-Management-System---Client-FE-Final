@@ -40,14 +40,14 @@ const ChatBot = () => {
   return (
     <>
       <div
-        className="fixed bottom-5 sm:right-8 right-4 z-[999] cursor-pointer bg-primary w-12 h-12 flex items-center justify-center rounded-full"
+        className="fixed bottom-5 sm:right-8 right-4 z-[999] cursor-pointer bg-primary w-12 h-12 flex items-center justify-center rounded-full border border-white"
         onClick={() => setShowModel(true)}
       >
         <IoChatbubbles style={{ color: "white" }} className="w-7 h-7" />
       </div>
       {showModel && (
         <div
-          className="fixed right-10 bottom-20 z-[999] flex justify-center items-center shadow-xl"
+          className="fixed right-10 bottom-20 z-[999] flex justify-center items-center shadow-xl bg-white"
           id="wrapper"
           onClick={handleClose}
         >
