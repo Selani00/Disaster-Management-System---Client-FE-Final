@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  Card,
-  CardBody,
-
-} from "@material-tailwind/react";
+import { Card, CardBody } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import {Donate_area_map} from "./Data"
-
-
+import { Donate_area_map } from "./Data";
 
 const donation_statics = () => {
- 
-
   const chartConfig = {
     type: "pie",
     width: 300,

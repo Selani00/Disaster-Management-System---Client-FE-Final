@@ -1,5 +1,5 @@
 import React from "react";
-import { contacts_map, webLinks_map, store_map } from "./data";
+import { contacts_map, webLinks_map, store_map } from "./Data";
 import {
   FaFacebookF,
   FaWhatsapp,
