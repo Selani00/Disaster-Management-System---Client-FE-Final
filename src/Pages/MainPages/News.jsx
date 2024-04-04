@@ -11,7 +11,7 @@ const News = () => {
       <MainNav />
       <div className="pt-40 mt-6">
         {/* Breaking News */}
-        <div className="relative w-full h-8  top-5 px-5">
+        <div className="relative w-full h-8  top-5 px-5 mb-10">
           <div className="flex bg-red-600 items-center">
             <div className="md:w-1/8 w-1/10 bg-white h-full  p-0 items-center flex justify-center m-2">
               <h1 className="font-bold px-3 md:text-lg text-sm text-red-600 shadow-lg">
@@ -31,7 +31,7 @@ const News = () => {
         </div>
 
         {/* Search Bar */}
-        <form className="px-20 mt-20">
+        <form className="px-5 md:px-20 mt-20 hidden sm:block">
           <TextInput
             type="text"
             placeholder="Search..."

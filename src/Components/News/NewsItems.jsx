@@ -6,6 +6,7 @@ import axios from "axios";
 const NewsItems = () => {
   const [news, setNews] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [displayedNews, setDisplayedNews] = useState(10);
 
   const fetchData = async () => {
     try {
@@ -13,8 +14,11 @@ const NewsItems = () => {
         "http://localhost:5000/api/news/getNews"
       );
       console.log(response.data);
-      setNews(response.data);
-      setSelectedItem(response.data[response.data.length - 1]);
+
+      const filteredNews = response.data.filter(newsItem => newsItem.show);
+      
+      setNews(filteredNews);
+      setSelectedItem(filteredNews[filteredNews.length - 1]);
     } catch (err) {
       console.log(err);
     }
@@ -46,11 +50,16 @@ const NewsItems = () => {
     } else [setSelectedItem(news[news.length - 1])];
   };
 
+  const handleClickMore = () => {
+    setDisplayedNews(displayedNews + 10);
+
+  }
+
   return (
     <div>
       <div className="flex justify-between py-5 px-5 gap-5">
         {/* Left Section */}
-        <div className="sm:w-2/3 bg-gray-200 ">
+        <div className="w-full sm:w-2/3 bg-white shadow-md">
           <div className="px-5 py-3">
             <h1 className="text-primary font-bold md:text-3xl text-lg">
               {selectedItem ? selectedItem.heading : "No News Selected"}
@@ -58,7 +67,7 @@ const NewsItems = () => {
             <p className="my-3 text-base">
               By : {selectedItem ? selectedItem.author : "gfyew"}
             </p>
-            <div className=" flex justify-between text-xs text-gray-500 py-4">
+            <div className=" sm:flex justify-between text-xs text-gray-500 py-4">
               <p>
                 <span className="text-black">Created Date : </span>
                 {selectedItem ? selectedItem.createdDate : "No"}
@@ -113,16 +122,13 @@ const NewsItems = () => {
         </div>
 
         {/* Right Section - Move this section to another file*/}
-        <div className="w-1/3 border border-black">
+        <div className="w-1/3 border border-black hidden md:block">
           <div className="px-2 py-2">
             <h1 className="text-primary font-bold md:text-2xl text-lg py-3">
               More News
             </h1>
             <div>
-              {news
-                .slice()
-                .reverse()
-                .map((newsItems) => (
+              {news.slice().reverse().slice(0,displayedNews).map((newsItems) => (
                   <div
                     key={newsItems._id}
                     className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2 cursor-pointer"
@@ -153,7 +159,7 @@ const NewsItems = () => {
               <button
                 type="button"
                 className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 w-full hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
-                // onClick={handleClick}
+                onClick={handleClickMore}
               >
                 View More
               </button>

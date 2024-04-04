@@ -9,6 +9,7 @@ import Donations from "./Pages/MainPages/Donations";
 import UserLogin from "./Pages/AuthPages/NormalSignIn";
 import UserRegistration from "./Pages/AuthPages/NormalSignUp";
 import UserProfile from "./Pages/Others/UserProfile";
+import Volunteering from "./Pages/Others/Volunteering";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Plan" element={<Plan />} />
         <Route path="/News" element={<News />} />
         <Route path="/Donations" element={<Donations />} />
+        <Route path="/Volunteering" element={<Volunteering />} />
 
         <Route path="/UserProfile" element={<UserProfile/>} />
 
