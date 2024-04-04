@@ -3,62 +3,9 @@ import News_Image from "../../assets/News/News_Image.jpg";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 
-const news_list = [
-  {
-    id: 1,
-    heading: "This is news heading 1",
-    Auther: "Auther",
-    date: "31 Dec 2023",
-    time: "8AM",
-    image: News_Image,
-    news_body:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  },
-  {
-    id: 2,
-    heading:
-      "This is news heading 2 dw  dwef  ew fcds fsdf sdfdssdfsdf fdsfsdfdsf fdsfds",
-    Auther: "Auther 2",
-    date: "31 Dec 2023",
-    time: "8AM",
-    image: News_Image,
-    news_body:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  },
-  {
-    id: 3,
-    heading: "This is news heading 3",
-    Auther: "Auther 3",
-    date: "31 Dec 2023",
-    time: "8AM",
-    image: News_Image,
-    news_body:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  },
-  {
-    id: 4,
-    heading: "This is news heading 4",
-    Auther: "Auther 4",
-    date: "31 Dec 2023",
-    time: "8AM",
-    image: News_Image,
-    news_body:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  },
-  {
-    id: 5,
-    heading: "This is news heading 4",
-    Auther: "Auther 4",
-    date: "31 Dec 2023",
-    time: "8AM",
-    image: News_Image,
-    news_body:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
-  },
-];
-
 const NewsItems = () => {
   const [news, setNews] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -67,6 +14,7 @@ const NewsItems = () => {
       );
       console.log(response.data);
       setNews(response.data);
+      setSelectedItem(response.data[response.data.length - 1]);
     } catch (err) {
       console.log(err);
     }
@@ -76,8 +24,8 @@ const NewsItems = () => {
     fetchData();
   }, []);
 
-  const handleClick = () => {
-    fetchData();
+  const handleMouseClick = (newsItem) => {
+    setSelectedItem(newsItem);
   };
 
   return (
@@ -87,12 +35,20 @@ const NewsItems = () => {
         <div className="sm:w-2/3 bg-gray-200 ">
           <div className="px-5 py-3">
             <h1 className="text-primary font-bold md:text-3xl text-lg">
-              This is the heading
+              {selectedItem ? selectedItem.heading : "No News Selected"}
             </h1>
-            <p className="my-3 text-base">By ABC</p>
-            <div className="w-1/4 flex justify-between text-xs text-gray-500 py-4">
-              <p>2024.05.12</p>
-              <p>08:32 AM</p>
+            <p className="my-3 text-base">
+              By : {selectedItem ? selectedItem.author : "gfyew"}
+            </p>
+            <div className=" flex justify-between text-xs text-gray-500 py-4">
+              <p>
+                <span className="text-black">Created Date : </span>
+                {selectedItem ? selectedItem.createdDate : "No"}
+              </p>
+              <p>
+                <span className="text-black">Created Time: </span>
+                {selectedItem ? selectedItem.createdTime : "No"}
+              </p>
             </div>
 
             <div
@@ -100,7 +56,7 @@ const NewsItems = () => {
               style={{ width: "100%", paddingBottom: "56.25%" }}
             >
               <img
-                src={News_Image}
+                src={selectedItem ? selectedItem.image : News_Image}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ width: "100%", height: "100%" }}
@@ -109,10 +65,7 @@ const NewsItems = () => {
 
             <div className="mt-3">
               <p className="text-black text-sm leading-7">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                ducimus voluptas blanditiis laborum voluptate, necessitatibus,
-                optio non explicabo enim eaque nisi distinctio expedita eligendi
-                ullam porro? Sit at tenetur enim?
+                {selectedItem ? selectedItem.newsBody : "No News Selected"}
               </p>
             </div>
           </div>
@@ -140,38 +93,41 @@ const NewsItems = () => {
               More News
             </h1>
             <div>
-              {news_list.map((news) => (
-                <div
-                  key={news.id}
-                  className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2 cursor-pointer"
-                  onClick={() => handleMouseClick(news)}
-                >
-                  <div className="w-1/3   py-0 h-full">
-                    <img
-                      src={news.image ? news.image : defaulf_image}
-                      alt=""
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="mr-2 py-2">
-                    <h1 className="font-semibold text-black text-base">
-                      {news.heading.slice(0, 35)}
-                    </h1>
+              {news
+                .slice()
+                .reverse()
+                .map((newsItems) => (
+                  <div
+                    key={newsItems._id}
+                    className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2 cursor-pointer"
+                    onClick={() => handleMouseClick(newsItems)}
+                  >
+                    <div className="w-1/3   py-0 h-full">
+                      <img
+                        src={newsItems.image ? newsItems.image : News_Image}
+                        alt=""
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div className="mr-2 py-2">
+                      <h1 className="font-semibold text-black text-base">
+                        {newsItems.heading.slice(0, 35)}
+                      </h1>
 
-                    <div className=" mt-3 flex justify-between text-xs">
-                      <p className="text-black">{news.Auther}</p>
-                      <p className="text-gray-800">{news.date}</p>
+                      <div className=" mt-3 flex justify-between items-center gap-2 text-xs">
+                        <p className="text-black">{newsItems.author}</p>
+                        <p className="text-gray-800">{newsItems.createdDate}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             <div className="my-3">
               <button
                 type="button"
                 className="bg-primary text-white font-semibold py-2 px-7 rounded my-10"
-                onClick={handleClick}
+                // onClick={handleClick}
               >
                 View More
               </button>
