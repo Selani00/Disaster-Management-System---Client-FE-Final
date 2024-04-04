@@ -28,6 +28,24 @@ const NewsItems = () => {
     setSelectedItem(newsItem);
   };
 
+  const handleNextNews = (currentItemId) => {
+    const currentIndex = news.findIndex(
+      (item) => item.newsId === currentItemId
+    );
+    if (currentIndex > 0) {
+      setSelectedItem(news[currentIndex - 1]);
+    } else [setSelectedItem(news[0])];
+  };
+
+  const handlePreviousNews = (currentItemId) => {
+    const currentIndex = news.findIndex(
+      (item) => item.newsId === currentItemId
+    );
+    if (currentIndex < news.length - 1) {
+      setSelectedItem(news[currentIndex + 1]);
+    } else [setSelectedItem(news[news.length - 1])];
+  };
+
   return (
     <div>
       <div className="flex justify-between py-5 px-5 gap-5">
@@ -56,7 +74,9 @@ const NewsItems = () => {
               style={{ width: "100%", paddingBottom: "56.25%" }}
             >
               <img
-                src={selectedItem ? selectedItem.image : News_Image}
+                src={
+                  selectedItem ? selectedItem.image || News_Image : News_Image
+                }
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ width: "100%", height: "100%" }}
@@ -73,13 +93,19 @@ const NewsItems = () => {
           {/* Next and Previous Button */}
           <div className="flex justify-between my-10 mx-5">
             {/* left button */}
-            <button className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 flex justify-between items-center gap-3">
+            <button
+              className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 flex justify-between items-center gap-3 hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
+              onClick={() => handlePreviousNews(selectedItem.newsId)}
+            >
               <FaArrowLeft />
               <span>Previous</span>
             </button>
 
             {/* Right button */}
-            <button className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 flex justify-between items-center gap-3">
+            <button
+              className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 flex justify-between items-center gap-3 hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
+              onClick={() => handleNextNews(selectedItem.newsId)}
+            >
               <span>Next</span>
               <FaArrowRight />
             </button>
@@ -126,7 +152,7 @@ const NewsItems = () => {
             <div className="my-3">
               <button
                 type="button"
-                className="bg-primary text-white font-semibold py-2 px-7 rounded my-10"
+                className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 w-full hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
                 // onClick={handleClick}
               >
                 View More
