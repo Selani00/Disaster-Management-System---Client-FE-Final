@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
-import { FaMapMarkedAlt, FaMicrophone } from "react-icons/fa";
+import { FaMapMarkedAlt } from "react-icons/fa";
 import {
   Label,
   TextInput,
@@ -9,42 +9,58 @@ import {
   FileInput,
   Textarea,
 } from "flowbite-react";
+import { useSelector } from "react-redux";
 import Footer from "../../Components/Commen/Footer/Footer";
 
 const Emargancy = () => {
-  const [ipAddress, setIpAddress] = useState("");
-  const [geoInfo, setGeoInfo] = useState({});
+  const { currentUser } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    getVisitorIP();
-  }, []);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
-  const getVisitorIP = async () => {
-    try {
-      const response = await fetch("https://api.ipify.org");
-      const data = await response.text();
-      setIpAddress(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [formdata, setFormdata] = useState({});
+  const [useName, setUserName] = useState(currentUser.userName);
+  const [location, setLocation] = useState({ latitude: "", longitude: "" });
+  const [disasterType, setDisasterType] = useState("");
+  const [otherDisaster, setOtherDisaster] = useState('');
+  const [peopleEffected, setPeopleEffected] = useState("");
+  const [needMedicalSupport, setNeedMedicalSupport] = useState(false);
+  const [images, setImages] = useState([]);
+  const [message, setMessage] = useState("");
 
-  const handleInputChange = (e) => {
-    setIpAddress(e.target.value);
-  };
-
-  const fetchIpInfo = async (e) => {
+  const handleChange = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
-      const data = await response.json();
-
-      setGeoInfo(data);
-      console.log(geoInfo.regionName);
-    } catch (error) {
-      console.log(error);
-    }
+    // If your change the name
+    setUserName(e.target.value);
+    setDisasterType(e.target.value);
   };
+
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+
+      setLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+  };
+
+  // To return the data in the input field
+  const formatLocation = () => {
+    return `${location.latitude}, ${location.longitude}`;
+  };
+
+  const handleSubmit = () => {
+    console.log(useName, location);
+  };
+
+  const handleOtherDisasterChange = (e) => {
+    setOtherDisaster(e.target.value);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -52,7 +68,10 @@ const Emargancy = () => {
 
       <div className="pt-20 mt-6">
         <div className="px-5 md:px-10 mb-10">
-          <form className="p-5 bg-blue-100 text-gray-900 font-semibold text-base">
+          <form
+            className="p-5 bg-blue-100 text-gray-900 font-semibold text-base"
+            onClick={handleSubmit}
+          >
             <h1 className="text-center font-bold ">
               <span className="text-2xl md:text-5xl ">
                 Are you in a Emergency?
@@ -62,7 +81,13 @@ const Emargancy = () => {
             <div className="grid gap-10 mb-6 md:grid-cols-2 p-5 ">
               <div>
                 <Label value="Your Name"></Label>
-                <TextInput type="Name" placeholder="username" id="userName" />
+                <TextInput
+                  type="Name"
+                  placeholder="username"
+                  id="userName"
+                  value={useName}
+                  onChange={handleChange}
+                />
               </div>
 
               <div>
@@ -72,33 +97,46 @@ const Emargancy = () => {
                     type="text"
                     placeholder="Current location"
                     className="flex-grow"
-                    value={ipAddress}
-                    onChange={handleInputChange}
+                    value={formatLocation()}
+                    readOnly
                   />
                   <button
-                    type="submit"
+                    type="button"
                     className="text-white bg-primary p-2 rounded-xl"
-                    onClick={fetchIpInfo}
+                    onClick={getCurrentLocation}
                   >
                     <FaMapMarkedAlt className="h-5  w-5" />
                   </button>
                 </div>
-                {geoInfo.city && <div className="">City: {geoInfo.city}</div>}
               </div>
             </div>
 
             <div className="grid gap-10 mb-2 md:grid-cols-2 p-5 ">
               <div>
                 <div className="mb-2 block">
-                  <Label value="Select your disaster" />
+                  <Label value="Select the type of disaster you face" />
                 </div>
-                <Select id="disaster" required>
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>France</option>
-                  <option>Germany</option>
+                <Select id="disasterType" required defaultValue="" onChange={handleChange}>
+                  <option disabled value="">
+                    Select...
+                  </option>
+                  <option>Flood</option>
+                  <option>Tsunami</option>
+                  <option>House Fire</option>
+                  <option>Other</option>
                 </Select>
+
+                
               </div>
+              {disasterType === "Other" && (
+                  <TextInput
+                    type="text"
+                    id="otherDisaster"
+                    placeholder="Specify other disaster"
+                    value={otherDisaster}
+                    onChange={handleOtherDisasterChange}
+                  />
+                )}
 
               <div>
                 <div className="mb-2 block">
@@ -125,26 +163,6 @@ const Emargancy = () => {
 
             {/* Selection */}
 
-            {/* Record void */}
-            {/* <div className="px-5 pb-5">
-              <div>
-                <Label value="Current Location"></Label>
-                <div className="flex justify-between items-center gap-2">
-                  <button
-                    type="submit"
-                    className="text-white bg-primary p-2 rounded-xl"
-                  >
-                    <FaMicrophone className=" h-5  w-5" />
-                  </button>
-                  <TextInput
-                    type="text"
-                    placeholder="Current location"
-                    className="flex-grow"
-                  />
-                </div>
-              </div>
-            </div> */}
-
             {/* Select Images or videos */}
             <div className="px-5 pb-3">
               <div>
@@ -163,7 +181,7 @@ const Emargancy = () => {
             <div className="flex items-center justify-center mt-5 px-5">
               <button
                 className="bg-primary py-2 px-10 w-full text-white text-bold text-xl rounded-2xl"
-                // onClick={handleSubmit}
+                type="button"
               >
                 Submit
               </button>
@@ -177,3 +195,27 @@ const Emargancy = () => {
 };
 
 export default Emargancy;
+
+{
+  /* Record void */
+}
+{
+  /* <div className="px-5 pb-5">
+              <div>
+                <Label value="Current Location"></Label>
+                <div className="flex justify-between items-center gap-2">
+                  <button
+                    type="submit"
+                    className="text-white bg-primary p-2 rounded-xl"
+                  >
+                    <FaMicrophone className=" h-5  w-5" />
+                  </button>
+                  <TextInput
+                    type="text"
+                    placeholder="Current location"
+                    className="flex-grow"
+                  />
+                </div>
+              </div>
+            </div> */
+}

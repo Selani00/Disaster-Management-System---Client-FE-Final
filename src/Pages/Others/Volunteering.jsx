@@ -32,6 +32,7 @@ const Volunteering = () => {
     e.preventDefault();
     console.log(formdata);
     console.log(selectedSkills);
+    
   }
   return (
     <>
