@@ -1,17 +1,29 @@
 import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
 import { IoNotifications } from "react-icons/io5";
 import { Link, useLocation,useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {signOutSuccess} from "../../../redux/user/userSlice";
 
 const NavBar = () => {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch= useDispatch();
 
 
-  const handleClick = () => {
-    
-    
+  const handleLogout = () => {
+    try{
+      dispatch(signOutSuccess());
+      navigate("/Login");
+    }
+    catch(err){
+      console.log(err);
+    }
+
+  }
+
+
+  const handleClick = () => {    
     if(currentUser=== null){
       navigate("/Login");
     } else {
@@ -52,7 +64,7 @@ const NavBar = () => {
               </Link>
               <Dropdown.Divider />
 
-              <Dropdown.Item>Log Out</Dropdown.Item>
+              <Dropdown.Item onClick={handleLogout}>Log Out</Dropdown.Item>
             </Dropdown.Header>
           </Dropdown>
           </>
