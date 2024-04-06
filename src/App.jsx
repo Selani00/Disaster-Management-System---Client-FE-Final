@@ -10,6 +10,7 @@ import UserLogin from "./Pages/AuthPages/NormalSignIn";
 import UserRegistration from "./Pages/AuthPages/NormalSignUp";
 import UserProfile from "./Pages/Others/UserProfile";
 import Volunteering from "./Pages/Others/Volunteering";
+import Weather from "./Pages/MainPages/Weather";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/News" element={<News />} />
         <Route path="/Donations" element={<Donations />} />
         <Route path="/Volunteering" element={<Volunteering />} />
+        <Route path="/Weather" element={<Weather />} />
 
         <Route path="/UserProfile" element={<UserProfile/>} />
 

@@ -126,7 +126,7 @@ const Emargancy = () => {
             {/* Selection */}
 
             {/* Record void */}
-            <div className="px-5 pb-5">
+            {/* <div className="px-5 pb-5">
               <div>
                 <Label value="Current Location"></Label>
                 <div className="flex justify-between items-center gap-2">
@@ -143,7 +143,7 @@ const Emargancy = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Select Images or videos */}
             <div className="px-5 pb-3">

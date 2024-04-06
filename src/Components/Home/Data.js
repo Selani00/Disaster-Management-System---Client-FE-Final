@@ -10,7 +10,7 @@ import Volunteering from "../../assets/HomePage/Services_Images/Volunteering.png
 
 
 export const Services_map = [
-    { id: 1, title: "Weather Forecast", image: Weather, link: "/weather" },
+    { id: 1, title: "Weather Forecast", image: Weather, link: "/Weather" },
     { id: 2, title: "News", image: News, link: "/News" },
     { id: 3, title: "Evacuation Routes", image: Map, link: "/weather" },
   ];
