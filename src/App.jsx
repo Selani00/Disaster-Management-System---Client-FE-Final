@@ -11,6 +11,7 @@ import UserRegistration from "./Pages/AuthPages/NormalSignUp";
 import UserProfile from "./Pages/Others/UserProfile";
 import Volunteering from "./Pages/Others/Volunteering";
 import Weather from "./Pages/MainPages/Weather";
+import SafetyTips from "./Pages/Others/SafetyTips";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Donations" element={<Donations />} />
         <Route path="/Volunteering" element={<Volunteering />} />
         <Route path="/Weather" element={<Weather />} />
+        <Route path="/SafetyTips" element={<SafetyTips />} />
 
         <Route path="/UserProfile" element={<UserProfile/>} />
 
