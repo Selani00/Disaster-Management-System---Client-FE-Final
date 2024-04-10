@@ -96,10 +96,10 @@ const NavBar = () => {
         </Navbar.Link>
         <Navbar.Link active={path === "/Plan"} as={"div"}>
           <Link
-            to="/Plan"
+            to="/Informations"
             className="text-white hover:text-yellow-200 text-base font-semibold "
           >
-            Plan
+            Informations
           </Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/News"} as={"div"}>

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/MainPages/Home";
 import Emargancy from "./Pages/Others/Emargancy";
 import Contacts from "./Pages/MainPages/Contacts";
-import Plan from "./Pages/MainPages/Plan";
+import Informations from "./Pages/MainPages/Informations";
 import News from "./Pages/MainPages/News";
 import Donations from "./Pages/MainPages/Donations";
 import UserLogin from "./Pages/AuthPages/NormalSignIn";
@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Emargancy" element={<Emargancy />} />
         <Route path="/Contacts" element={<Contacts />} />
-        <Route path="/Plan" element={<Plan />} />
+        <Route path="/Informations" element={<Informations />} />
         <Route path="/News" element={<News />} />
         <Route path="/Donations" element={<Donations />} />
         <Route path="/Volunteering" element={<Volunteering />} />

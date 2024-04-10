@@ -22,7 +22,7 @@ const Emargancy = () => {
   const [useName, setUserName] = useState(currentUser.userName);
   const [location, setLocation] = useState({ latitude: "", longitude: "" });
   const [disasterType, setDisasterType] = useState("");
-  const [otherDisaster, setOtherDisaster] = useState('');
+  const [otherDisaster, setOtherDisaster] = useState("");
   const [peopleEffected, setPeopleEffected] = useState("");
   const [needMedicalSupport, setNeedMedicalSupport] = useState(false);
   const [images, setImages] = useState([]);
@@ -31,8 +31,9 @@ const Emargancy = () => {
   const handleChange = (e) => {
     e.preventDefault();
     // If your change the name
-    setUserName(e.target.value);
-    setDisasterType(e.target.value);
+    setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
+
+    // setDisasterType(e.target.value);
   };
 
   const getCurrentLocation = () => {
@@ -53,7 +54,7 @@ const Emargancy = () => {
   };
 
   const handleSubmit = () => {
-    console.log(useName, location);
+    console.log(formdata);
   };
 
   const handleOtherDisasterChange = (e) => {
@@ -97,8 +98,10 @@ const Emargancy = () => {
                     type="text"
                     placeholder="Current location"
                     className="flex-grow"
-                    value={formatLocation()}
-                    readOnly
+                    id="location"
+                    // value={formatLocation()}
+                    onChange={handleChange}
+                    // readOnly
                   />
                   <button
                     type="button"
@@ -116,7 +119,12 @@ const Emargancy = () => {
                 <div className="mb-2 block">
                   <Label value="Select the type of disaster you face" />
                 </div>
-                <Select id="disasterType" required defaultValue="" onChange={handleChange}>
+                <Select
+                  id="disasterType"
+                  required
+                  defaultValue=""
+                  onChange={handleChange}
+                >
                   <option disabled value="">
                     Select...
                   </option>
@@ -125,10 +133,10 @@ const Emargancy = () => {
                   <option>House Fire</option>
                   <option>Other</option>
                 </Select>
-
-                
               </div>
               {disasterType === "Other" && (
+                <div>
+                  <Label value="What is the disaster that you face" />
                   <TextInput
                     type="text"
                     id="otherDisaster"
@@ -136,13 +144,17 @@ const Emargancy = () => {
                     value={otherDisaster}
                     onChange={handleOtherDisasterChange}
                   />
-                )}
+                </div>
+              )}
 
               <div>
                 <div className="mb-2 block">
                   <Label value="Number of People effected" />
                 </div>
-                <Select id="disaster" required>
+                <Select id="disaster" required defaultValue="" onChange={handleChange}>
+                  <option disabled value="">
+                    Select...
+                  </option>
                   <option>Only me</option>
                   <option>2-5</option>
                   <option>5-15</option>
@@ -154,7 +166,7 @@ const Emargancy = () => {
 
             <div className="px-5 mb-5">
               <div className="flex items-center gap-2">
-                <Checkbox id="promotion" />
+                <Checkbox id="promotion" onChange={handleChange}/>
                 <Label htmlFor="promotion">
                   Need Medical support or Ambulance
                 </Label>
@@ -175,7 +187,7 @@ const Emargancy = () => {
               <div className="mb-2 block">
                 <Label value="Your message" />
               </div>
-              <Textarea id="message" placeholder="Your message..." rows={4} />
+              <Textarea id="message" placeholder="Your message..." rows={4} onChange={handleChange}/>
             </div>
 
             <div className="flex items-center justify-center mt-5 px-5">
