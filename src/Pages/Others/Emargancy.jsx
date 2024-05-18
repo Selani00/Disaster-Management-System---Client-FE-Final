@@ -9,18 +9,18 @@ import {
   FileInput,
   Textarea,
 } from "flowbite-react";
-import { useSelector } from "react-redux";
+
 import Footer from "../../Components/Commen/Footer/Footer";
+import { retry } from "@reduxjs/toolkit/query";
 
 const Emargancy = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  
 
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
   const [formdata, setFormdata] = useState({});
-  const [useName, setUserName] = useState(currentUser.userName);
-  const [location, setLocation] = useState({ latitude: "", longitude: "" });
+  3
   const [disasterType, setDisasterType] = useState("");
   const [otherDisaster, setOtherDisaster] = useState("");
   const [peopleEffected, setPeopleEffected] = useState("");
@@ -39,12 +39,7 @@ const Emargancy = () => {
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-
-      setLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
+      setLongitude(position.coords.longitude);    
     });
   };
 
@@ -53,15 +48,44 @@ const Emargancy = () => {
     return `${location.latitude}, ${location.longitude}`;
   };
 
-  const handleSubmit = () => {
-    console.log(formdata);
-  };
+  const handleSubmit = async(e) => {
+    e.preventDefault();
 
+    if(
+      !formdata.requesterName || !formdata.disasterType 
+      || !formdata.disasterLocation || !formdata.affectedCount 
+      || !formdata.medicalNeed
+    ){
+      return 0;
+    }
+
+    try{
+      const res = await fetch("http://localhost:4800/api/requests/request" ,{
+        method: "GET",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body : JSON.stringify(formdata),
+      })
+
+      const data = await res.json();
+
+      if(data.success === false){
+        console.log(data.message);
+      }
+
+    }catch(err){
+      console.log(err)
+    }
+  };
+;
   const handleOtherDisasterChange = (e) => {
     setOtherDisaster(e.target.value);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   return (
     <>
@@ -85,8 +109,7 @@ const Emargancy = () => {
                 <TextInput
                   type="Name"
                   placeholder="username"
-                  id="userName"
-                  value={useName}
+                  id="requesterName"                  
                   onChange={handleChange}
                 />
               </div>
@@ -98,9 +121,9 @@ const Emargancy = () => {
                     type="text"
                     placeholder="Current location"
                     className="flex-grow"
-                    id="location"
-                    // value={formatLocation()}
-                    onChange={handleChange}
+                    id="disasterLocation"
+                    value={formatLocation()}
+                    onChange={(e)=>setFormdata({...formdata, location:value})}
                     // readOnly
                   />
                   <button
@@ -151,7 +174,7 @@ const Emargancy = () => {
                 <div className="mb-2 block">
                   <Label value="Number of People effected" />
                 </div>
-                <Select id="disaster" required defaultValue="" onChange={handleChange}>
+                <Select id="affectedCount" required defaultValue="" onChange={handleChange}>
                   <option disabled value="">
                     Select...
                   </option>
@@ -166,7 +189,7 @@ const Emargancy = () => {
 
             <div className="px-5 mb-5">
               <div className="flex items-center gap-2">
-                <Checkbox id="promotion" onChange={handleChange}/>
+                <Checkbox id="medicalNeed" onChange={handleChange}/>
                 <Label htmlFor="promotion">
                   Need Medical support or Ambulance
                 </Label>
@@ -187,7 +210,7 @@ const Emargancy = () => {
               <div className="mb-2 block">
                 <Label value="Your message" />
               </div>
-              <Textarea id="message" placeholder="Your message..." rows={4} onChange={handleChange}/>
+              <Textarea id="otherNeeds" placeholder="Your message..." rows={4} onChange={handleChange}/>
             </div>
 
             <div className="flex items-center justify-center mt-5 px-5">

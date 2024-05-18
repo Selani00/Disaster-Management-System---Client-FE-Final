@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./Pages/MainPages/Home";
 import Emargancy from "./Pages/Others/Emargancy";
 import Contacts from "./Pages/MainPages/Contacts";
