@@ -11,7 +11,7 @@ import {
 } from "flowbite-react";
 
 import Footer from "../../Components/Commen/Footer/Footer";
-import { retry } from "@reduxjs/toolkit/query";
+
 
 const Emargancy = () => {
   
@@ -32,6 +32,7 @@ const Emargancy = () => {
     e.preventDefault();
     // If your change the name
     setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
+    console.log(formdata);
 
     // setDisasterType(e.target.value);
   };
@@ -45,11 +46,13 @@ const Emargancy = () => {
 
   // To return the data in the input field
   const formatLocation = () => {
-    return `${location.latitude}, ${location.longitude}`;
+    return `${latitude}, ${longitude}`;
   };
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+
+    const formDataWithLocation = {...formdata, latitude, longitude};
 
     if(
       !formdata.requesterName || !formdata.disasterType 
@@ -58,25 +61,26 @@ const Emargancy = () => {
     ){
       return 0;
     }
+    console.log(formDataWithLocation);
 
-    try{
-      const res = await fetch("http://localhost:4800/api/requests/request" ,{
-        method: "GET",
-        headers:{
-          "Content-Type": "application/json",
-        },
-        body : JSON.stringify(formdata),
-      })
+    // try{
+    //   const res = await fetch("http://localhost:4800/api/requests/request" ,{
+    //     method: "POST",
+    //     headers:{
+    //       "Content-Type": "application/json",
+    //     },
+    //     body : JSON.stringify(formdata),
+    //   })
 
-      const data = await res.json();
+    //   const data = await res.json();
 
-      if(data.success === false){
-        console.log(data.message);
-      }
+    //   if(data.success === false){
+    //     console.log(data.message);
+    //   }
 
-    }catch(err){
-      console.log(err)
-    }
+    // }catch(err){
+    //   console.log(err)
+    // }
   };
 ;
   const handleOtherDisasterChange = (e) => {
@@ -122,8 +126,8 @@ const Emargancy = () => {
                     placeholder="Current location"
                     className="flex-grow"
                     id="disasterLocation"
-                    value={formatLocation()}
-                    onChange={(e)=>setFormdata({...formdata, location:value})}
+                    value={latitude && longitude ? `${latitude}, ${longitude}` : ""}
+                    readOnly
                     // readOnly
                   />
                   <button
@@ -216,7 +220,7 @@ const Emargancy = () => {
             <div className="flex items-center justify-center mt-5 px-5">
               <button
                 className="bg-primary py-2 px-10 w-full text-white text-bold text-xl rounded-2xl"
-                type="button"
+                type="submit"
               >
                 Submit
               </button>
