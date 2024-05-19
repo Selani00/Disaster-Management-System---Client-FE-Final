@@ -74,7 +74,7 @@ const Emargancy = () => {
       !formdata.disasterLocation.length ||
       !formdata.affectedCount
     ) {
-      console.log("All fields are required");
+      setError("All fields are required");
       return 0;
     }
 

@@ -4,6 +4,7 @@ import Volunteering_Image from "../../assets/Volunteering/Volunteering.jpg";
 import { TextInput, Textarea } from "flowbite-react";
 import Footer from "../../Components/Commen/Footer/Footer";
 import SelectDropDown from "react-dropdown-select";
+import { select } from "@material-tailwind/react";
 
 const Volunteering = () => {
   const options = [
@@ -17,23 +18,71 @@ const Volunteering = () => {
     { label: "Food Service/Cooking", value: 8 },
     { label: "Language Translation/Interpretation", value: 9 },
   ];
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [formdata, setFormdata] = useState({});
 
-  const handleChange = (e, selectedValues) => {
-    const { id, value } = e.target;
-    const newValue = id === "skills" ? selectedValues : value.trim();
-    setFormdata({ ...formdata, [id]: newValue });
-    setSelectedSkills(selectedValues);
+  const [formdata, setFormdata] = useState({
+    fullName: "",
+    email: "",
+    nicNumber: "",
+    phoneNumber: "",
+    age: null,
+    address: "",
+    skills: [],
+    experience: "",
+    motivation: "",
+  });
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-  }
+  const handleChange = (e) => {
+    setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
+    console.log(formdata);
+  };
+
+  const handleSkillsChange = (selectedOptions) => {
+    const skills = selectedOptions.map((option) => option.label);
+    setFormdata({ ...formdata, skills });
+    console.log(formdata);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
-    console.log(selectedSkills);
-    
-  }
+
+    if (
+      !formdata.fullName ||
+      !formdata.email ||
+      !formdata.phoneNumber ||
+      !formdata.nicNumber ||
+      !formdata.address ||
+      !formdata.age
+    ) {
+      setError("Please fill all the fields");
+      return 0;
+    }
+
+    try {
+      const res = await fetch("http://localhost:4800/api/volunteers/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formdata),
+      });
+
+      if (res.status === 200) {
+        console.log("Success");
+        setMessage("Successfully submitted");
+        setError("");
+        setFormdata({});
+      } else {
+        setError("Failed to submit");
+        setMessage("");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Failed to submit");
+      setMessage("");
+    }
+  };
   return (
     <>
       <NavBar />
@@ -66,29 +115,50 @@ const Volunteering = () => {
               </p>
             </div>
 
-            <form className="p-1 md:p-5 flex flex-col gap-4" onSubmit={handleSubmit}>
-              <TextInput type="text" placeholder="Enter your Name" id="name" onChange={handleChange}/>
+            <form
+              className="p-1 md:p-5 flex flex-col gap-4"
+              onSubmit={handleSubmit}
+            >
+              <TextInput
+                type="text"
+                placeholder="Enter your Name"
+                id="fullName"
+                onChange={handleChange}
+              />
+
+              <TextInput
+                type="text"
+                placeholder="NIC"
+                id="nicNumber"
+                onChange={handleChange}
+              />
 
               <TextInput
                 type="tel"
                 placeholder="Enter your phone number"
-                id="phone"
-                
-                onChange={(e)=>handleChange(e,null)}
+                id="phoneNumber"
+                onChange={handleChange}
               />
 
               <TextInput
                 type="email"
                 placeholder="Enter your Email"
                 id="email"
-                onChange={(e)=>handleChange(e,null)}
+                onChange={handleChange}
               />
 
               <TextInput
                 type="text"
                 placeholder="Enter the district you living"
                 id="address"
-                onChange={(e)=>handleChange(e,null)}
+                onChange={handleChange}
+              />
+
+              <TextInput
+                type="text"
+                placeholder="Age"
+                id="age"
+                onChange={handleChange}
               />
 
               <div>
@@ -101,14 +171,13 @@ const Volunteering = () => {
                   labelField="label"
                   valueField="value"
                   multi
-                  id="skills"
-                  onChange={(values) => handleChange({ target: { id: "skills" } }, values)}
+                  onChange={handleSkillsChange}
                   className=" bg-white border border-gray-300 focus:outline-none focus:border-blue-600"
                 ></SelectDropDown>
               </div>
 
               <div>
-              <p className="mt-0 py-0 px-1 text-xs text-blue-500">
+                <p className="mt-0 py-0 px-1 text-xs text-blue-500">
                   How you are going to help
                 </p>
                 <Textarea
@@ -116,24 +185,28 @@ const Volunteering = () => {
                   id="experience"
                   placeholder="How you can help us?"
                   rows={4}
-                  onChange={(e) => handleChange(e, null)}
+                  onChange={handleChange}
                 />
               </div>
 
               <div>
-              <p className="mt-0 py-0 px-1 text-xs text-blue-500">
+                <p className="mt-0 py-0 px-1 text-xs text-blue-500">
                   What is the motivation behind you to join with us?
                 </p>
-              <Textarea
-                type="text"
-                id="motivation"
-                placeholder="What is the motivation behind you to join with us?"
-                rows={2}
-                onChange={(e) => handleChange(e, null)}
-              /></div>
+                <Textarea
+                  type="text"
+                  id="motivation"
+                  placeholder="What is the motivation behind you to join with us?"
+                  rows={2}
+                  onChange={handleChange}
+                />
+              </div>
 
               <div className="flex items-center justify-center mt-5 ">
-                <button className="bg-primary py-2 px-10 w-full text-white font-semibold text-xl rounded-2xl" type="submit">
+                <button
+                  className="bg-primary py-2 px-10 w-full text-white font-semibold text-xl rounded-2xl"
+                  type="submit"
+                >
                   Submit
                 </button>
               </div>

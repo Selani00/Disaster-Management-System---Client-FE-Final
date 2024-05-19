@@ -2,7 +2,8 @@ import React,{useEffect,useState} from 'react'
 import axios from 'axios'
 const API_endpoint= `https://api.openweathermap.org/data/2.5/weather?`
 // const API_endpoint= `https://api.openweathermap.org/data/3.0/onecall?`
-const API_KEY= `8c9b0b00c9bbe1400e012bf84692a4b8`
+// const API_KEY= process.env.API_KEY
+const API_KEY= '8c9b0b00c9bbe1400e012bf84692a4b8'
 
 const Weather = () => {
   const [latitude, setLatitude] = useState('')
@@ -39,7 +40,7 @@ const Weather = () => {
         <h1>{latitude}</h1>
 
         <h1>{longitude}</h1>
-        {/* <h1>{responseData.main.temp}</h1> */}
+        <h1>{responseData.main.temp}</h1>
        {/*  */}
        {/* <h1>{responseData.weather[0].description}</h1> */}
        {icon && <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Weather Icon" />}
