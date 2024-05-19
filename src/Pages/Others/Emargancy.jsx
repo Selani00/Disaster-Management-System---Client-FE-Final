@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import {
@@ -8,88 +8,100 @@ import {
   Checkbox,
   FileInput,
   Textarea,
+  Alert,
 } from "flowbite-react";
 
 import Footer from "../../Components/Commen/Footer/Footer";
 
-
 const Emargancy = () => {
-  
-
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  const [formdata, setFormdata] = useState({});
-  3
-  const [disasterType, setDisasterType] = useState("");
+  const [formdata, setFormdata] = useState({
+    requesterName: "",
+    disasterType: "",
+    disasterLocation: [],
+    affectedCount: "",
+    medicalNeed: false,
+    otherNeeds: "",
+  });
+
   const [otherDisaster, setOtherDisaster] = useState("");
-  const [peopleEffected, setPeopleEffected] = useState("");
-  const [needMedicalSupport, setNeedMedicalSupport] = useState(false);
   const [images, setImages] = useState([]);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    e.preventDefault();
-    // If your change the name
-    setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
+    const { name, value, type, checked } = e.target;
+    setFormdata((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     console.log(formdata);
-
-    // setDisasterType(e.target.value);
   };
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);    
+      const { latitude, longitude } = position.coords;
+      setLatitude(latitude);
+      setLongitude(longitude);
+      setFormdata((prev) => ({
+        ...prev,
+        disasterLocation: [latitude, longitude],
+      }));
     });
   };
 
-  // To return the data in the input field
-  const formatLocation = () => {
-    return `${latitude}, ${longitude}`;
-  };
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-
-    const formDataWithLocation = {...formdata, latitude, longitude};
-
-    if(
-      !formdata.requesterName || !formdata.disasterType 
-      || !formdata.disasterLocation || !formdata.affectedCount 
-      || !formdata.medicalNeed
-    ){
-      return 0;
-    }
-    console.log(formDataWithLocation);
-
-    // try{
-    //   const res = await fetch("http://localhost:4800/api/requests/request" ,{
-    //     method: "POST",
-    //     headers:{
-    //       "Content-Type": "application/json",
-    //     },
-    //     body : JSON.stringify(formdata),
-    //   })
-
-    //   const data = await res.json();
-
-    //   if(data.success === false){
-    //     console.log(data.message);
-    //   }
-
-    // }catch(err){
-    //   console.log(err)
-    // }
-  };
-;
   const handleOtherDisasterChange = (e) => {
     setOtherDisaster(e.target.value);
-  };
+    setFormdata((prev) => ({
+      ...prev,
+      disasterType: "Other",
+    }));
+  }
 
-  useEffect(() => {
-    getCurrentLocation();
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submissionData ={
+      ...formdata,
+      disasterType: formdata.disasterType === "Other" ? otherDisaster : formdata.disasterType,
+    }
+
+    if (
+      !formdata.requesterName ||
+      !formdata.disasterType ||
+      !formdata.disasterLocation.length ||
+      !formdata.affectedCount
+    ) {
+      console.log("All fields are required");
+      return 0;
+    }
+
+    try {
+      const res = await fetch("http://localhost:4800/api/requests/request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      
+
+      if (res.status === 200) {
+        setMessage("We will get back to you soon. Thank you for your request");
+        setError("");
+      } else {
+        setError("Something went wrong. Please try again");
+        setMessage("");
+       
+      }
+    } catch (err) {
+      setError(err);
+      setMessage("");
+    }
+  };
 
   return (
     <>
@@ -99,7 +111,7 @@ const Emargancy = () => {
         <div className="px-5 md:px-10 mb-10">
           <form
             className="p-5 bg-blue-100 text-gray-900 font-semibold text-base"
-            onClick={handleSubmit}
+            onSubmit={handleSubmit}
           >
             <h1 className="text-center font-bold ">
               <span className="text-2xl md:text-5xl ">
@@ -111,9 +123,10 @@ const Emargancy = () => {
               <div>
                 <Label value="Your Name"></Label>
                 <TextInput
-                  type="Name"
+                  type="text"
+                  name="requesterName"
                   placeholder="username"
-                  id="requesterName"                  
+                  value={formdata.requesterName}
                   onChange={handleChange}
                 />
               </div>
@@ -125,8 +138,11 @@ const Emargancy = () => {
                     type="text"
                     placeholder="Current location"
                     className="flex-grow"
-                    id="disasterLocation"
-                    value={latitude && longitude ? `${latitude}, ${longitude}` : ""}
+                    value={
+                      formdata.disasterLocation.length
+                        ? `${formdata.disasterLocation[0]}, ${formdata.disasterLocation[1]}`
+                        : ""
+                    }
                     readOnly
                     // readOnly
                   />
@@ -147,9 +163,10 @@ const Emargancy = () => {
                   <Label value="Select the type of disaster you face" />
                 </div>
                 <Select
-                  id="disasterType"
+                  name="disasterType"
                   required
                   defaultValue=""
+                  value={formdata.disasterType}
                   onChange={handleChange}
                 >
                   <option disabled value="">
@@ -161,12 +178,12 @@ const Emargancy = () => {
                   <option>Other</option>
                 </Select>
               </div>
-              {disasterType === "Other" && (
+              {formdata.disasterType === "Other" && (
                 <div>
                   <Label value="What is the disaster that you face" />
                   <TextInput
                     type="text"
-                    id="otherDisaster"
+                    name="otherDisaster"
                     placeholder="Specify other disaster"
                     value={otherDisaster}
                     onChange={handleOtherDisasterChange}
@@ -178,7 +195,13 @@ const Emargancy = () => {
                 <div className="mb-2 block">
                   <Label value="Number of People effected" />
                 </div>
-                <Select id="affectedCount" required defaultValue="" onChange={handleChange}>
+                <Select
+                  name="affectedCount"
+                  value={formdata.affectedCount}
+                  required
+                  defaultValue=""
+                  onChange={handleChange}
+                >
                   <option disabled value="">
                     Select...
                   </option>
@@ -193,7 +216,11 @@ const Emargancy = () => {
 
             <div className="px-5 mb-5">
               <div className="flex items-center gap-2">
-                <Checkbox id="medicalNeed" onChange={handleChange}/>
+                <Checkbox
+                  name="medicalNeed"
+                  checked={formdata.medicalNeed}
+                  onChange={handleChange}
+                />
                 <Label htmlFor="promotion">
                   Need Medical support or Ambulance
                 </Label>
@@ -214,7 +241,13 @@ const Emargancy = () => {
               <div className="mb-2 block">
                 <Label value="Your message" />
               </div>
-              <Textarea id="otherNeeds" placeholder="Your message..." rows={4} onChange={handleChange}/>
+              <Textarea
+                name="otherNeeds"
+                placeholder="Your message..."
+                rows={4}
+                value={formdata.otherNeeds}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="flex items-center justify-center mt-5 px-5">
@@ -226,6 +259,13 @@ const Emargancy = () => {
               </button>
             </div>
           </form>
+          <div className="mt-2">
+
+          {message && <Alert type="success">{message}</Alert>}
+          {error && <Alert type="error">{error}</Alert>}
+ 
+
+          </div>
         </div>
         <Footer />
       </div>
@@ -234,27 +274,3 @@ const Emargancy = () => {
 };
 
 export default Emargancy;
-
-{
-  /* Record void */
-}
-{
-  /* <div className="px-5 pb-5">
-              <div>
-                <Label value="Current Location"></Label>
-                <div className="flex justify-between items-center gap-2">
-                  <button
-                    type="submit"
-                    className="text-white bg-primary p-2 rounded-xl"
-                  >
-                    <FaMicrophone className=" h-5  w-5" />
-                  </button>
-                  <TextInput
-                    type="text"
-                    placeholder="Current location"
-                    className="flex-grow"
-                  />
-                </div>
-              </div>
-            </div> */
-}
