@@ -21,7 +21,7 @@ const ChatBot = () => {
 
     try {
       const response = await axios.post(
-        "https://dms-mobile-server.onrender.com/api/chatbot",
+        "http://localhost:4800/api/chatbot",
         {
           content: content,
           role: "user",
@@ -66,7 +66,7 @@ const ChatBot = () => {
                 {messages.map((message, i) => (
                   <div key={i}>
                     <div className="flex justify-start items-center gap-2">
-                      <RiRobot2Fill className="w-5 h-5" />
+                      <FaUserAlt className="w-5 h-5" />
                       <div
                         className=" bg-green-300 p-2 rounded-tr-xl rounded-bl-xl rounded-br-xl text-sm mb-2 "
                         style={{ width: "fit-content" }}
@@ -82,7 +82,7 @@ const ChatBot = () => {
                       >
                         {message.result}
                       </div>
-                      <FaUserAlt className="w-5 h-5" />
+                      <RiRobot2Fill className="w-5 h-5" />
                     </div>
                   </div>
                 ))}

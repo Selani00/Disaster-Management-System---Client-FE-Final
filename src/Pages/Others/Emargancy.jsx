@@ -20,7 +20,8 @@ const Emargancy = () => {
   const [formdata, setFormdata] = useState({
     requesterName: "",
     disasterType: "",
-    disasterLocation: [],
+    disasterLocation: "",
+    disasterLocationLatLan: [],
     affectedCount: "",
     medicalNeed: false,
     otherNeeds: "",
@@ -47,7 +48,7 @@ const Emargancy = () => {
       setLongitude(longitude);
       setFormdata((prev) => ({
         ...prev,
-        disasterLocation: [latitude, longitude],
+        disasterLocationLatLan: [latitude, longitude],
       }));
     });
   };
@@ -58,20 +59,24 @@ const Emargancy = () => {
       ...prev,
       disasterType: "Other",
     }));
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submissionData ={
+    const submissionData = {
       ...formdata,
-      disasterType: formdata.disasterType === "Other" ? otherDisaster : formdata.disasterType,
-    }
+      disasterType:
+        formdata.disasterType === "Other"
+          ? otherDisaster
+          : formdata.disasterType,
+    };
 
     if (
       !formdata.requesterName ||
       !formdata.disasterType ||
-      !formdata.disasterLocation.length ||
+      !formdata.disasterLocation ||
+      !formdata.disasterLocationLatLan.length ||
       !formdata.affectedCount
     ) {
       setError("All fields are required");
@@ -87,15 +92,12 @@ const Emargancy = () => {
         body: JSON.stringify(submissionData),
       });
 
-      
-
       if (res.status === 200) {
         setMessage("We will get back to you soon. Thank you for your request");
         setError("");
       } else {
         setError("Something went wrong. Please try again");
         setMessage("");
-       
       }
     } catch (err) {
       setError(err);
@@ -130,6 +132,16 @@ const Emargancy = () => {
                   onChange={handleChange}
                 />
               </div>
+              <div>
+                <Label value="Near City"></Label>
+                <TextInput
+                  type="text"
+                  name="disasterLocation"
+                  placeholder="City Name"
+                  value={formdata.disasterLocation}
+                  onChange={handleChange}
+                />
+              </div>
 
               <div>
                 <Label value="Current Location"></Label>
@@ -139,8 +151,8 @@ const Emargancy = () => {
                     placeholder="Current location"
                     className="flex-grow"
                     value={
-                      formdata.disasterLocation.length
-                        ? `${formdata.disasterLocation[0]}, ${formdata.disasterLocation[1]}`
+                      formdata.disasterLocationLatLan.length
+                        ? `${formdata.disasterLocationLatLan[0]}, ${formdata.disasterLocationLatLan[1]}`
                         : ""
                     }
                     readOnly
@@ -260,11 +272,8 @@ const Emargancy = () => {
             </div>
           </form>
           <div className="mt-2">
-
-          {message && <Alert type="success">{message}</Alert>}
-          {error && <Alert type="error">{error}</Alert>}
- 
-
+            {message && <Alert type="success">{message}</Alert>}
+            {error && <Alert type="error">{error}</Alert>}
           </div>
         </div>
         <Footer />

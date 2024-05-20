@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import image_1 from "../../assets/HomePage/Image_Slider/one.png";
 import image_2 from "../../assets/HomePage/Image_Slider/two.png";
@@ -50,18 +51,41 @@ const showSlider = () => {
   }
 };
 
+
+
 const Image_Slider = () => {
 
   const [timerEnabled, setTimerEnabled] = useState(true);
+  const [lastalerts, setLastAlerts] = useState([]);
+  
+
+  const getAlert = async() => {
+    try {
+      const res = await axios.post("http://localhost:4800/api/alerts/getAlerts");
+      const alerts = res.data;
+      
+      
+      const lastAlert = alerts[alerts.length - 1];
+      setLastAlerts(lastAlert);
+        
+        
+    }catch(err){
+      console.log(err);
+    }
+  
+  }
 
   useEffect(() => {
+
+    getAlert();
+
     if (timerEnabled) {
       intervalId = setInterval(() => {
         next();
       }, 3000);
     }
     return () => {
-      clearInterval(intervalId);
+      clearInterval(intervalId); 
     };
   }, [timerEnabled]);
 
@@ -113,8 +137,7 @@ const Image_Slider = () => {
                 className="md:text-sm text-xs text-black overflow-hidden"
                 style={{ maxHeight: "1.5em"  }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque
-                animi repellendus reiciendis, aperiam ut
+                {lastalerts ? lastalerts.message : "No Alerts"}
               </p>
             </div>
           </div>

@@ -11,7 +11,7 @@ const NewsItems = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/news/getNews"
+        "http://localhost:4800/api/news/getNews"
       );
       console.log(response.data);
 
@@ -71,10 +71,11 @@ const NewsItems = () => {
               <p>
                 <span className="text-black">Created Date : </span>
                 {selectedItem ? selectedItem.createdDate : "No"}
+                {/* {selectedItem ? new Date(selectedItem.createdDate).toLocaleDateString() : "No"} */}
               </p>
               <p>
                 <span className="text-black">Created Time: </span>
-                {selectedItem ? selectedItem.createdTime : "No"}
+                {selectedItem ? selectedItem.createdTime: "No"}
               </p>
             </div>
 

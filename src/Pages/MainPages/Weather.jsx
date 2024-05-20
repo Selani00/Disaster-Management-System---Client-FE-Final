@@ -1,4 +1,6 @@
 import React,{useEffect,useState} from 'react'
+import MainNav from "../../Components/Commen/Header/MainNav";
+
 import axios from 'axios'
 const API_endpoint= `https://api.openweathermap.org/data/2.5/weather?`
 // const API_endpoint= `https://api.openweathermap.org/data/3.0/onecall?`
@@ -36,16 +38,23 @@ const Weather = () => {
 
   return (
     <div>
-        Weather page
+      <MainNav/>
+
+      <div className="pt-40 mt-6">
+
+      Weather page
         <h1>{latitude}</h1>
 
         <h1>{longitude}</h1>
-        <h1>{responseData.main.temp}</h1>
+        {/* <h1>{responseData.main.temp}</h1> */}
        {/*  */}
        {/* <h1>{responseData.weather[0].description}</h1> */}
        {icon && <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Weather Icon" />}
 
 
+      </div>
+
+        
         
         
       
