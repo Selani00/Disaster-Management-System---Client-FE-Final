@@ -11,6 +11,7 @@ import UserProfile from "./Pages/Others/UserProfile";
 import Volunteering from "./Pages/Others/Volunteering";
 import Weather from "./Pages/MainPages/Weather";
 import SafetyTips from "./Pages/Others/SafetyTips";
+import EvacuationRoutes from "./Pages/MainPages/EvacuationRoutes";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 
         <Route path="/Login" element={<UserLogin/>} />
         <Route path="/Registration" element={<UserRegistration/>} />
+        <Route path="/EvacuationRoutes" element={<EvacuationRoutes/>} />
       </Routes>
     </BrowserRouter>
   );

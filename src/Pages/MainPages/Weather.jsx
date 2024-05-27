@@ -5,7 +5,7 @@ import axios from 'axios'
 const API_endpoint= `https://api.openweathermap.org/data/2.5/weather?`
 // const API_endpoint= `https://api.openweathermap.org/data/3.0/onecall?`
 // const API_KEY= process.env.API_KEY
-const API_KEY= '8c9b0b00c9bbe1400e012bf84692a4b8'
+const VITE_API_KEY= '8c9b0b00c9bbe1400e012bf84692a4b8'
 
 const Weather = () => {
   const [latitude, setLatitude] = useState('')
@@ -22,7 +22,7 @@ const Weather = () => {
       
     })
 
-    let final_API=`${API_endpoint}lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+    let final_API=`${API_endpoint}lat=${latitude}&lon=${longitude}&appid=${VITE_API_KEY}`
     // let final_API=`${API_endpoint}lat=${latitude}&lon=${longitude}&exclude=hourly,daily&appid=${API_KEY}`
     
     axios.get(final_API).then((response)=>{
