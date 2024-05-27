@@ -21,7 +21,7 @@ const Emargancy = () => {
     requesterName: "",
     disasterType: "",
     disasterLocation: "",
-    disasterLocationLatLan: [],
+    disasterLocationLatLan: [{latitude: 0, longitude: 0}],
     affectedCount: "",
     medicalNeed: false,
     otherNeeds: "",
@@ -48,7 +48,7 @@ const Emargancy = () => {
       setLongitude(longitude);
       setFormdata((prev) => ({
         ...prev,
-        disasterLocationLatLan: [latitude, longitude],
+        disasterLocationLatLan: [{latitude: latitude, longitude: longitude}],
       }));
     });
   };
@@ -84,8 +84,8 @@ const Emargancy = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:4800/api/requests/request", {
-        method: "POST",
+      const res = await fetch("http://localhost:5000/api/requests/request", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -150,11 +150,7 @@ const Emargancy = () => {
                     type="text"
                     placeholder="Current location"
                     className="flex-grow"
-                    value={
-                      formdata.disasterLocationLatLan.length
-                        ? `${formdata.disasterLocationLatLan[0]}, ${formdata.disasterLocationLatLan[1]}`
-                        : ""
-                    }
+                    value={latitude + "," + longitude}
                     readOnly
                     // readOnly
                   />
