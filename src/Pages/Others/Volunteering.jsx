@@ -4,9 +4,11 @@ import Volunteering_Image from "../../assets/Volunteering/Volunteering.jpg";
 import { TextInput, Textarea } from "flowbite-react";
 import Footer from "../../Components/Commen/Footer/Footer";
 import SelectDropDown from "react-dropdown-select";
-import { select } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Volunteering = () => {
+  const navigate = useNavigate();
   const options = [
     { label: "First Aid/CPR", value: 1 },
     { label: "Search and Rescue", value: 2 },
@@ -30,8 +32,8 @@ const Volunteering = () => {
     experience: "",
     motivation: "",
   });
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
+
+
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
@@ -55,12 +57,12 @@ const Volunteering = () => {
       !formdata.address ||
       !formdata.age
     ) {
-      setError("Please fill all the fields");
+      Swal.fire('Warning!', 'All fields are required', 'warning')
       return 0;
     }
 
     try {
-      const res = await fetch("http://localhost:4800/api/volunteers/create", {
+      const res = await fetch("http://localhost:5000/api/volunteers/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,17 +72,24 @@ const Volunteering = () => {
 
       if (res.status === 200) {
         console.log("Success");
-        setMessage("Successfully submitted");
-        setError("");
-        setFormdata({});
+        
+        Swal.fire({
+          icon: "success",
+          title: "Successfully Submitted",
+          text: "Thank you for your submission",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            navigate("/");
+          }
+        });
       } else {
-        setError("Failed to submit");
-        setMessage("");
+        Swal.fire('Oops...', 'Something went wrong!', 'error')
+        
       }
     } catch (err) {
       console.log(err);
-      setError("Failed to submit");
-      setMessage("");
+      Swal.fire('Oops...', err, 'error')
+      
     }
   };
   return (
@@ -149,8 +158,14 @@ const Volunteering = () => {
 
               <TextInput
                 type="text"
-                placeholder="Enter the district you living"
+                placeholder="Home Address"
                 id="address"
+                onChange={handleChange}
+              />
+              <TextInput
+                type="text"
+                placeholder="Province you living"
+                id="province"
                 onChange={handleChange}
               />
 
