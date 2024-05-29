@@ -11,7 +11,7 @@ const NewsItems = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4800/api/news/getNews"
+        "http://localhost:5000/api/news/getNews"
       );
       console.log(response.data);
 

@@ -37,13 +37,13 @@ const Volunteering = () => {
 
   const handleChange = (e) => {
     setFormdata({ ...formdata, [e.target.id]: e.target.value.trim() });
-    console.log(formdata);
+
   };
 
   const handleSkillsChange = (selectedOptions) => {
     const skills = selectedOptions.map((option) => option.label);
     setFormdata({ ...formdata, skills });
-    console.log(formdata);
+
   };
 
   const handleSubmit = async (e) => {

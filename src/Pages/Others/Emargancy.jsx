@@ -85,7 +85,7 @@ const Emargancy = () => {
 
     try {
       const res = await fetch("http://localhost:5000/api/requests/request", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -100,7 +100,8 @@ const Emargancy = () => {
         setMessage("");
       }
     } catch (err) {
-      setError(err);
+      
+      setError(`Something went wrong. ${err}`);
       setMessage("");
     }
   };
