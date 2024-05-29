@@ -61,7 +61,7 @@ const Image_Slider = () => {
 
   const getAlert = async() => {
     try {
-      const res = await axios.post("http://localhost:4800/api/alerts/getAlerts");
+      const res = await axios.post("http://localhost:5000/api/alerts/getAlerts");
       const alerts = res.data;
       
       

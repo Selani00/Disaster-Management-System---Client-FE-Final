@@ -5,6 +5,7 @@ import { Button, Card } from "flowbite-react";
 import tsunami from "../../assets/Informations/tsunami.jpg";
 import Fire from "../../assets/Informations/Fire.jpg";
 import Flood from "../../assets/Informations/Flood.jpg";
+import DisasterStatics from "../../Components/information/overallInfo"
 
 const Informations = () => {
   const information_list = [
@@ -39,6 +40,10 @@ const Informations = () => {
 
       <div className="pt-40 mt-6">
         <div className="p-10">
+          <div className="py-5 px-20">
+            <DisasterStatics/>
+
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             {information_list.map((item) => (
               <Card className="max-w-sm mb-5">

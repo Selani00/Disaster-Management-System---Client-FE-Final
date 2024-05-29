@@ -27,7 +27,8 @@
     "redux-persist": "^6.0.0",
     "selenium-webdriver": "^4.20.0",
     "sweetalert2": "^11.11.0",
-    "swiper": "^11.1.0"
+    "swiper": "^11.1.0",
+    "tw-elements-react": "^1.0.0-alpha2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
