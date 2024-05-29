@@ -10,12 +10,15 @@ import {
   Textarea,
   Alert,
 } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 import Footer from "../../Components/Commen/Footer/Footer";
+import Swal from "sweetalert2";
 
 const Emargancy = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const navigate = useNavigate();
 
   const [formdata, setFormdata] = useState({
     requesterName: "",
@@ -29,8 +32,6 @@ const Emargancy = () => {
 
   const [otherDisaster, setOtherDisaster] = useState("");
   const [images, setImages] = useState([]);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -79,7 +80,7 @@ const Emargancy = () => {
       !formdata.disasterLocationLatLan.length ||
       !formdata.affectedCount
     ) {
-      setError("All fields are required");
+      Swal.fire('Warning!', 'Requied filled are empty', 'warning')
       return 0;
     }
 
@@ -93,16 +94,22 @@ const Emargancy = () => {
       });
 
       if (res.status === 200) {
-        setMessage("We will get back to you soon. Thank you for your request");
-        setError("");
+        Swal.fire({
+          icon: "success",
+          title: "Successfully Submitted",
+          text: "We will get back to you soon.",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            navigate("/");
+          }
+        });
+        
       } else {
-        setError("Something went wrong. Please try again");
-        setMessage("");
+        Swal.fire('Oops...', 'Something went wrong!', 'error')
       }
     } catch (err) {
-      
-      setError(`Something went wrong. ${err}`);
-      setMessage("");
+      console.log(err);
+      Swal.fire('Oops...', err, 'error')
     }
   };
 
@@ -268,10 +275,7 @@ const Emargancy = () => {
               </button>
             </div>
           </form>
-          <div className="mt-2">
-            {message && <Alert type="success">{message}</Alert>}
-            {error && <Alert type="error">{error}</Alert>}
-          </div>
+          
         </div>
         <Footer />
       </div>

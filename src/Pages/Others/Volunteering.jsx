@@ -57,7 +57,7 @@ const Volunteering = () => {
       !formdata.address ||
       !formdata.age
     ) {
-      Swal.fire('Warning!', 'All fields are required', 'warning')
+      Swal.fire('Warning!', 'Requied filled are empty', 'warning')
       return 0;
     }
 
