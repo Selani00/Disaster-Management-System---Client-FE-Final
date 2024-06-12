@@ -12,9 +12,10 @@ const EvacuationRoutes = () => {
   const getShelters = async () => {
     try {
       const currentResponse = await axios.post(
-        "http://localhost:5000/api/reports/currentReports"
+        "http://localhost:5000/api/shelters/getAll"
       );
       setShelters(currentResponse.data);
+      console.log(currentResponse.data);
     } catch (err) {
       console.log(err);
     }
@@ -46,7 +47,15 @@ const EvacuationRoutes = () => {
             </p>
           </div>
         </div>
-        <div className="border border-black p-3">
+        <div>
+          {/* Flex box */}
+          <div>
+            <div> Buttton</div>
+            <div>Display fild</div>
+          </div>
+
+        </div>
+        <div className="border border-black rounded-xl p-3">
           <div>
             <APIProvider apiKey={"AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk"}>
               <div className="w-full h-[60vh]">
@@ -55,10 +64,9 @@ const EvacuationRoutes = () => {
                     shelters.map((report, index) => (
                       <Marker
                         key={index}
-                        icon={<FaMapMarkerAlt />}
                         position={{
-                          lat: report.affectedLocations[0].latitude,
-                          lng: report.affectedLocations[0].longitude,
+                          lat: report.locationLatLang[0].latitude,
+                          lng: report.locationLatLang[0].longitude,
                         }}
                       />
                     ))}

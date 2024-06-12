@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import News_Image from "../../assets/News/News_Image.jpg";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
+import { Buffer } from "buffer";
 
 const NewsItems = () => {
   const [news, setNews] = useState([]);
@@ -84,9 +85,10 @@ const NewsItems = () => {
               style={{ width: "100%", paddingBottom: "56.25%" }}
             >
               <img
-                src={
-                  selectedItem ? selectedItem.image || News_Image : News_Image
-                }
+              src={
+                selectedItem && selectedItem.image
+                ? `data:${selectedItem.image.contentType};base64,${Buffer.from(selectedItem.image.data).toString('base64')}`
+              : News_Image} 
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ width: "100%", height: "100%" }}
@@ -137,7 +139,12 @@ const NewsItems = () => {
                   >
                     <div className="w-1/3   py-0 h-full">
                       <img
-                        src={newsItems.image ? newsItems.image : News_Image}
+                       src={
+                        newsItems && newsItems.image
+                          ? `data:${newsItems.image.contentType};base64,${Buffer.from(newsItems.image.data).toString('base64')}`
+                          : News_Image
+                      }
+                        
                         alt=""
                         className="object-cover w-full h-full"
                       />
