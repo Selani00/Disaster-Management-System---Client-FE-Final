@@ -24,7 +24,7 @@ const Emargancy = () => {
     requesterName: "",
     disasterType: "",
     disasterLocation: "",
-    disasterLocationLatLan: [{latitude: 0, longitude: 0}],
+    disasterLocationLatLan: [0, 0],
     affectedCount: "",
     medicalNeed: false,
     otherNeeds: "",
@@ -49,7 +49,7 @@ const Emargancy = () => {
       setLongitude(longitude);
       setFormdata((prev) => ({
         ...prev,
-        disasterLocationLatLan: [{latitude: latitude, longitude: longitude}],
+        disasterLocationLatLan: [latitude, longitude],
       }));
     });
   };
