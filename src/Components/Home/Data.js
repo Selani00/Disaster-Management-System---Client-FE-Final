@@ -22,7 +22,7 @@ export const More_Services_map = [
       title: "Family Emergency Plans",
       description: "Tool to create plans during the Emergency.",
       image: Family,
-      link: "/Donations",
+      link: "/FamilyEmergencyPlans",
     },
     {
       id: 2,

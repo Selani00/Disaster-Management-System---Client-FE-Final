@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
-import NavBar from "../../Components/Commen/Header/NavBar";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import MainNav from "../../Components/Commen/Header/MainNav";
 import Banner from "../../assets/EvacuationRoutes/Banner.jpg";
 import Footer from "../../Components/Commen/Footer/Footer";
 import axios from "axios";
@@ -33,10 +32,10 @@ const EvacuationRoutes = () => {
 
   return (
     <>
-      <NavBar />
-      <div className="pt-15 mt-0">
+      <MainNav/>
+      <div className="pt-40 mt-6 pb-3">
         <div className="relative mb-5">
-          <img src={Banner} className="top-0 h-[30vh] w-full object-cover" />
+          <img src={Banner} className="h-[30vh] w-full object-cover" />
           <div className=" absolute inset-0 py-10 flex-row items-center justify-center text-center">
             <p className="text-primary font-extrabold  text-2xl md:text-4xl p-4 ">
               We will navigate you to the nearest safe place.
@@ -58,7 +57,7 @@ const EvacuationRoutes = () => {
         <div className="border border-black rounded-xl p-3">
           <div>
             <APIProvider apiKey={"AIzaSyCqnhZFna6jPPizSKO88sNgdYLc3SHAGhk"}>
-              <div className="w-full h-[60vh]">
+              <div className="w-full h-[80vh]">
                 <Map defaultZoom={7} defaultCenter={{ lat: 7.1, lng: 80.636696 }}>
                   {
                     shelters.map((report, index) => (
