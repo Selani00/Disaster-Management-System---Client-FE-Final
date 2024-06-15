@@ -12,11 +12,11 @@ const CreataAndEditPlans = () => {
   };
 
   return (
-    <>
+    <div className="px-2">
       <h1 className="text-center text-primary text-3xl my-5 font-bold">
         Create a Plan
       </h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4" >
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -39,12 +39,15 @@ const CreataAndEditPlans = () => {
           className="h-72 md:mb-5 mb-10"
           required
         />
-        <div className="flex items-center justify-center gap-5 px-4 w-full mt-10">
+        
+      </form>
+      <div className="flex items-center justify-center gap-5 px-4 w-full mt-10" >
           <div className="w-5/6">
             <Button
-              type="submit"
+              type="button"
               gradientDuoTone="purpleToBlue"
               className="w-full"
+              onClick={handleSubmit}
             >
               Save
             </Button>
@@ -55,8 +58,7 @@ const CreataAndEditPlans = () => {
             </button>
           </div>
         </div>
-      </form>
-    </>
+    </div>
   );
 };
 

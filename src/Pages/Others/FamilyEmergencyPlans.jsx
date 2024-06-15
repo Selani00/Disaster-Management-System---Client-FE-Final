@@ -36,219 +36,216 @@ const FamilyEmergencyPlans = () => {
           </div>
         </div>
         <div className="p-3">
-  <div className="border border-gray-300 rounded-xl p-2">
-    <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-2">
-      
-      <div className="w-full md:w-1/2">
-        <CreateOrEditPlan />
-      </div>
+          <div className="border border-gray-300 rounded-xl p-2">
+            <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-2">
+              <div className="w-full md:w-1/2">
+                <CreateOrEditPlan />
+              </div>
 
-      
-      <div className="w-full md:w-1/2">
-        <h1 className="text-center md:text-center text-primary text-3xl my-5 font-bold">
-          My Plans
-        </h1>
-        <div className="p-2">
-          
-          <div className="overflow-x-auto py-5 px-1">
-            <Table striped>
-              <Table.Head>
-                <Table.HeadCell>Title</Table.HeadCell>
-                <Table.HeadCell>Category</Table.HeadCell>
-                <Table.HeadCell>
-                  <span className="sr-only">Edit</span>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {'Apple MacBook Pro 17"'}
-                  </Table.Cell>
-                  <Table.Cell>Sliver</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-2">
-                    <a
-                      href="#"
-                      className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
-                    >
-                      <CiEdit className="w-6 h-6 hover:scale-110" />
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
-                    >
-                      <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Microsoft Surface Pro
-                  </Table.Cell>
-                  <Table.Cell>White</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-5">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Magic Mouse 2
-                  </Table.Cell>
-                  <Table.Cell>Black</Table.Cell>
-                  <Table.Cell className="flex items-center justify-center gap-2">
-                    <a
-                      href="#"
-                      className="font-medium text-cyan-600 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
+              <div className="hidden md:block border-l border-black h-full mx-2"></div>
+              <div className="w-full md:w-1/2">
+                <h1 className="text-center md:text-center text-primary text-3xl my-5 font-bold">
+                  My Plans
+                </h1>
+                <div className="p-2">
+                  <div className="overflow-x-auto py-5 px-1">
+                    <Table striped>
+                      <Table.Head>
+                        <Table.HeadCell>Title</Table.HeadCell>
+                        <Table.HeadCell>Category</Table.HeadCell>
+                        <Table.HeadCell>
+                          <span className="sr-only">Edit</span>
+                        </Table.HeadCell>
+                      </Table.Head>
+                      <Table.Body className="divide-y">
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            {'Apple MacBook Pro 17"'}
+                          </Table.Cell>
+                          <Table.Cell>Sliver</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-2">
+                            <a
+                              href="#"
+                              className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
+                            >
+                              <CiEdit className="w-6 h-6 hover:scale-110" />
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
+                            >
+                              <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Microsoft Surface Pro
+                          </Table.Cell>
+                          <Table.Cell>White</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-5">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row className="bg-white">
+                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                            Magic Mouse 2
+                          </Table.Cell>
+                          <Table.Cell>Black</Table.Cell>
+                          <Table.Cell className="flex items-center justify-center gap-2">
+                            <a
+                              href="#"
+                              className="font-medium text-cyan-600 hover:underline"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              href="#"
+                              className="font-medium text-red-600 hover:underline"
+                            >
+                              Delete
+                            </a>
+                          </Table.Cell>
+                        </Table.Row>
+                      </Table.Body>
+                    </Table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
       </div>
 
       <Footer />
