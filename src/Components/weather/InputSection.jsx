@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FaSearchLocation } from "react-icons/fa";
 import { TbCurrentLocation } from "react-icons/tb";
 
-const InputSection = ({setQuary, setUnits}) => {
-  const [selected, setSelected] = useState("C");
+const InputSection = ({setQuary}) => {
+
   const [city, setCity] = useState("");
 
   const handleSearch = () => {
@@ -21,17 +21,9 @@ const InputSection = ({setQuary, setUnits}) => {
     }
   }
 
-  const handleClickFahrenheit = () => {
-    setSelected("F");
-    setUnits("imperial")
-  }
 
-  const handleClickCelsius = () => {
-    setSelected("C");
-    setUnits("metric")
-  }
   return (
-    <div className="w-full px-1 md:px-10 py-2 flex items-center justify-center gap-2 md:gap-5">
+    <div className="w-full px-1 md:px-10 py-2 mt-10 flex items-center justify-center gap-2 md:gap-5">
       {/* search section */}
       <div className="w-2/3">
         <div className="flex items-center justify-center gap-2 md:gap-5">
@@ -58,26 +50,7 @@ const InputSection = ({setQuary, setUnits}) => {
         </div>
       </div>
 
-      {/* Units section */}
-      <div className="flex items-center justify-center gap-1">
-        <button
-          className={`text-base md:text-2xl font-medium ${
-            selected === "F" ? "underline" : ""
-          }`}
-          onClick={handleClickFahrenheit}
-        >
-          °F
-        </button>
-        <p className="text-base md:text-2xl font-medium mx-1">|</p>
-        <button
-          className={`text-base md:text-2xl font-medium ${
-            selected === "C" ? "underline" : ""
-          }`}
-          onClick={handleClickCelsius}
-        >
-          °C
-        </button>
-      </div>
+      
     </div>
   );
 };
