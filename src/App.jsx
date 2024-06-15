@@ -13,7 +13,7 @@ import Weather from "./Pages/MainPages/Weather";
 import SafetyTips from "./Pages/Others/SafetyTips";
 import EvacuationRoutes from "./Pages/MainPages/EvacuationRoutes";
 import FamilyEmergencyPlans from "./Pages/Others/FamilyEmergencyPlans";
-import CreateAndEditPlans from "./Components/FamilyEmergencyPlans/CreataAndEditPlans";
+
 
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         <Route path="/Registration" element={<UserRegistration/>} />
         <Route path="/EvacuationRoutes" element={<EvacuationRoutes/>} />
         <Route path="/FamilyEmergencyPlans" element={<FamilyEmergencyPlans/>} />
-        <Route path="/CreateAndEditPlans" element={<CreateAndEditPlans/>} />
+        
       </Routes>
     </BrowserRouter>
   );
