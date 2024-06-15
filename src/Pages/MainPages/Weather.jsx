@@ -42,14 +42,7 @@ const Weather = () => {
 
       <div className="pt-40 mt-6">
 
-      Weather page
-        <h1>{latitude}</h1>
-
-        <h1>{longitude}</h1>
-        {/* <h1>{responseData.main.temp}</h1> */}
-       {/*  */}
-       {/* <h1>{responseData.weather[0].description}</h1> */}
-       {icon && <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Weather Icon" />}
+      
 
 
       </div>
