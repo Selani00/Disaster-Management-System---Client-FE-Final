@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef, useEffect } from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import {
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import Footer from "../../Components/Commen/Footer/Footer";
 import Swal from "sweetalert2";
+import { getStorage } from "firebase/storage";
 
 const Emargancy = () => {
   const [latitude, setLatitude] = useState("");
@@ -31,7 +32,17 @@ const Emargancy = () => {
   });
 
   const [otherDisaster, setOtherDisaster] = useState("");
-  const [images, setImages] = useState([]);
+  const [imageFile, setImageFiles] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+  const filePickerRef = useRef();
+  const handleImageChange = (e) => {
+    const file =e.target.files[0];
+    if(file){
+      setImageFiles(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  }
+  console.log(imageFile,imageFileUrl);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -112,6 +123,17 @@ const Emargancy = () => {
       Swal.fire('Oops...', err, 'error')
     }
   };
+
+  useEffect(() => {
+    if(imageFile){
+      uploadImage();
+    }
+  },[imageFile]);
+
+  const uploadImage = async () => {
+    const storage = getStorage();
+    console.log("Uploading image");
+  }
 
   return (
     <>
@@ -250,7 +272,8 @@ const Emargancy = () => {
               <div>
                 <Label value="Click to upload the images" />
               </div>
-              <FileInput id="images" multiple />
+              <FileInput type="file" accept="image/*" onClick={handleImageChange} />
+              {imageFileUrl && <img src={imageFile}/>}
             </div>
 
             <div className="py-3 px-5">
