@@ -1,4 +1,4 @@
-import { useState,useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import {
@@ -9,12 +9,20 @@ import {
   FileInput,
   Textarea,
   Alert,
+  Button,
 } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-
+import { CircularProgressbar } from "react-circular-progressbar";
 import Footer from "../../Components/Commen/Footer/Footer";
 import Swal from "sweetalert2";
-import { getStorage } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../../firebase";
+import { set } from "firebase/database";
 
 const Emargancy = () => {
   const [latitude, setLatitude] = useState("");
@@ -27,22 +35,25 @@ const Emargancy = () => {
     disasterLocation: "",
     disasterLocationLatLan: [0, 0],
     affectedCount: "",
+    image: "",
     medicalNeed: false,
     otherNeeds: "",
   });
-
   const [otherDisaster, setOtherDisaster] = useState("");
+
+  // Image upload
   const [imageFile, setImageFiles] = useState(null);
-  const [imageFileUrl, setImageFileUrl] = useState(null);
-  const filePickerRef = useRef();
-  const handleImageChange = (e) => {
-    const file =e.target.files[0];
-    if(file){
-      setImageFiles(file);
-      setImageFileUrl(URL.createObjectURL(file));
-    }
-  }
-  console.log(imageFile,imageFileUrl);
+  // const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageUploadProgress, setImageUploadProgress] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
+
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImageFiles(file);
+  //     setImageFileUrl(URL.createObjectURL(file));
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -91,7 +102,7 @@ const Emargancy = () => {
       !formdata.disasterLocationLatLan.length ||
       !formdata.affectedCount
     ) {
-      Swal.fire('Warning!', 'Requied filled are empty', 'warning')
+      Swal.fire("Warning!", "Requied filled are empty", "warning");
       return 0;
     }
 
@@ -114,26 +125,51 @@ const Emargancy = () => {
             navigate("/");
           }
         });
-        
       } else {
-        Swal.fire('Oops...', 'Something went wrong!', 'error')
+        Swal.fire("Oops...", "Something went wrong!", "error");
       }
     } catch (err) {
       console.log(err);
-      Swal.fire('Oops...', err, 'error')
+      Swal.fire("Oops...", err, "error");
     }
   };
 
-  useEffect(() => {
-    if(imageFile){
-      uploadImage();
-    }
-  },[imageFile]);
-
   const uploadImage = async () => {
-    const storage = getStorage();
-    console.log("Uploading image");
-  }
+    try {
+      if (!imageFile) {
+        setImageUploadError("Please select an image file");
+        return;
+      }
+      setImageUploadError(null);
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + imageFile.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setImageUploadProgress(progress.toFixed(0));
+        },
+        (error) => {
+          setImageUploadError(
+            "Could not upload the image file must be less than 10MB"
+          );
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageUploadProgress(null);
+            setImageUploadError(null);
+            setFormdata({...formdata, image: downloadURL});
+          });
+        }
+      );
+    } catch (err) {
+      setImageUploadError("An error occurred while uploading the image");
+      setImageUploadProgress(null);
+    }
+  };
 
   return (
     <>
@@ -272,9 +308,43 @@ const Emargancy = () => {
               <div>
                 <Label value="Click to upload the images" />
               </div>
-              <FileInput type="file" accept="image/*" onClick={handleImageChange} />
-              {imageFileUrl && <img src={imageFile}/>}
+              <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
+                <FileInput
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImageFiles(e.target.files[0])}
+                />
+                <Button
+                  type="button"
+                  gradientDuoTone="purpleToBlue"
+                  size="sm"
+                  outline
+                  onClick={uploadImage}
+                  disabled={imageUploadProgress}
+                >
+                  {imageUploadProgress ? (
+                    <div className="w-16 h-16">
+                      <CircularProgressbar
+                        value={imageUploadProgress}
+                        text={`${imageUploadProgress || 0}`}
+                      />
+                    </div>
+                  ) : (
+                    "Upload Image"
+                  )}
+                </Button>
+              </div>
             </div>
+            {imageUploadError && (
+              <Alert color="failure">{imageUploadError}</Alert>
+            )}
+            {formdata.image && (
+              <img
+                src={formdata.image}
+                alt="uploaded image"
+                className="w-full h-71 object-cover"
+              />
+            )}
 
             <div className="py-3 px-5">
               <div className="mb-2 block">
@@ -298,7 +368,6 @@ const Emargancy = () => {
               </button>
             </div>
           </form>
-          
         </div>
         <Footer />
       </div>
