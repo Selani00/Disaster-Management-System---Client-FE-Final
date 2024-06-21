@@ -2,24 +2,31 @@ import React, { useState, useEffect } from "react";
 import News_Image from "../../assets/News/News_Image.jpg";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-import { Buffer } from "buffer";
 
-const NewsItems = () => {
+const NewsItems = ({ setBreaking }) => {
   const [news, setNews] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [displayedNews, setDisplayedNews] = useState(10);
+  const [more, setMore] = useState(false);
 
   const fetchData = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/news/getNews"
       );
-      console.log(response.data);
 
-      const filteredNews = response.data.filter(newsItem => newsItem.show);
-      
+      const filteredNews = response.data.filter((newsItem) => newsItem.show);
       setNews(filteredNews);
       setSelectedItem(filteredNews[filteredNews.length - 1]);
+
+      if (filteredNews.length > 0) {
+        setBreaking(filteredNews[filteredNews.length - 1]);
+      } else {
+        setBreaking(null);
+      }
+      if (filteredNews.length > 8) {
+        setMore(true);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -53,8 +60,7 @@ const NewsItems = () => {
 
   const handleClickMore = () => {
     setDisplayedNews(displayedNews + 10);
-
-  }
+  };
 
   return (
     <div>
@@ -72,11 +78,10 @@ const NewsItems = () => {
               <p>
                 <span className="text-black">Created Date : </span>
                 {selectedItem ? selectedItem.createdDate : "No"}
-                {/* {selectedItem ? new Date(selectedItem.createdDate).toLocaleDateString() : "No"} */}
               </p>
               <p>
                 <span className="text-black">Created Time: </span>
-                {selectedItem ? selectedItem.createdTime: "No"}
+                {selectedItem ? selectedItem.createdTime : "No"}
               </p>
             </div>
 
@@ -85,10 +90,11 @@ const NewsItems = () => {
               style={{ width: "100%", paddingBottom: "56.25%" }}
             >
               <img
-              src={
-                selectedItem && selectedItem.image
-                ? `data:${selectedItem.image.contentType};base64,${Buffer.from(selectedItem.image.data).toString('base64')}`
-              : News_Image} 
+                src={
+                  selectedItem && selectedItem.image
+                    ? selectedItem.image
+                    : News_Image
+                }
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ width: "100%", height: "100%" }}
@@ -131,7 +137,11 @@ const NewsItems = () => {
               More News
             </h1>
             <div>
-              {news.slice().reverse().slice(0,displayedNews).map((newsItems) => (
+              {news
+                .slice()
+                .reverse()
+                .slice(0, displayedNews)
+                .map((newsItems) => (
                   <div
                     key={newsItems._id}
                     className="flex items-center justify-start gap-2 bg-gray-200 h-20 my-2 cursor-pointer"
@@ -139,12 +149,11 @@ const NewsItems = () => {
                   >
                     <div className="w-1/3   py-0 h-full">
                       <img
-                       src={
-                        newsItems && newsItems.image
-                          ? `data:${newsItems.image.contentType};base64,${Buffer.from(newsItems.image.data).toString('base64')}`
-                          : News_Image
-                      }
-                        
+                        src={
+                          newsItems && newsItems.image
+                            ? newsItems.image
+                            : News_Image
+                        }
                         alt=""
                         className="object-cover w-full h-full"
                       />
@@ -163,15 +172,17 @@ const NewsItems = () => {
                 ))}
             </div>
 
-            <div className="my-3">
-              <button
-                type="button"
-                className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 w-full hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
-                onClick={handleClickMore}
-              >
-                View More
-              </button>
-            </div>
+            {more && (
+              <div className="my-3">
+                <button
+                  type="button"
+                  className="bg-primary text-white font-semibold py-2 px-7 rounded my-10 w-full hover:bg-yellow-200 hover:text-black transition duration-300 ease-in-out"
+                  onClick={handleClickMore}
+                >
+                  View More
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
