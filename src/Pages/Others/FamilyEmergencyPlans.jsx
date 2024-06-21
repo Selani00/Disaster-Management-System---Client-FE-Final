@@ -1,20 +1,47 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import MainNav from "../../Components/Commen/Header/MainNav";
 import Footer from "../../Components/Commen/Footer/Footer";
 import Banner from "../../assets/FamilyEmergancyPlan/FamilyBanner.jpg";
-import { Button, Table } from "flowbite-react";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Table,Spinner } from "flowbite-react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import CreateOrEditPlan from "../../Components/FamilyEmergencyPlans/CreataAndEditPlans";
+import Model from "../../Components/Commen/Model_1";
 
 const FamilyEmergencyPlans = () => {
-  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [plans, setPlans] = useState([]);
+  const [showModel, setShowModel] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
-  const handleCreate = () => {
-    navigate("/CreateAndEditPlans");
+
+  const fetchPlans = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/familyPlans/getPlans/${currentUser.email}`
+      );
+      setPlans(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+
+  useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  const handleView = (plan) => {
+    setSelectedPlan(plan);
+    setShowModel(true);
+
+  };
+
   return (
     <>
       <MainNav />
@@ -49,197 +76,48 @@ const FamilyEmergencyPlans = () => {
                 </h1>
                 <div className="p-2">
                   <div className="overflow-x-auto py-5 px-1">
-                    <Table striped>
-                      <Table.Head>
-                        <Table.HeadCell>Title</Table.HeadCell>
-                        <Table.HeadCell>Category</Table.HeadCell>
-                        <Table.HeadCell>
-                          <span className="sr-only">Edit</span>
-                        </Table.HeadCell>
-                      </Table.Head>
-                      <Table.Body className="divide-y">
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            {'Apple MacBook Pro 17"'}
-                          </Table.Cell>
-                          <Table.Cell>Sliver</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-2">
-                            <a
-                              href="#"
-                              className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
-                            >
-                              <CiEdit className="w-6 h-6 hover:scale-110" />
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
-                            >
-                              <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Microsoft Surface Pro
-                          </Table.Cell>
-                          <Table.Cell>White</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-5">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row className="bg-white">
-                          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                            Magic Mouse 2
-                          </Table.Cell>
-                          <Table.Cell>Black</Table.Cell>
-                          <Table.Cell className="flex items-center justify-center gap-2">
-                            <a
-                              href="#"
-                              className="font-medium text-cyan-600 hover:underline"
-                            >
-                              Edit
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-red-600 hover:underline"
-                            >
-                              Delete
-                            </a>
-                          </Table.Cell>
-                        </Table.Row>
-                      </Table.Body>
-                    </Table>
+                    {loading ? (
+                      <div className="flex flex-col items-center justify-center h-screen">
+                        <Spinner
+                          aria-label="Extra large spinner example"
+                          size="xl"
+                        />
+                      </div>
+                    ) : (
+                      <Table striped>
+                        <Table.Head>
+                          <Table.HeadCell>Title</Table.HeadCell>
+                          <Table.HeadCell>Category</Table.HeadCell>
+                          <Table.HeadCell>
+                            <span className="sr-only">Edit</span>
+                          </Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
+                          {plans.map((plan) => (
+                            <Table.Row className="bg-white" key={plan.planId} >
+                              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white overflow-hidden">
+                                {plan.title}
+                              </Table.Cell>
+                              <Table.Cell>{plan.category}</Table.Cell>
+                              <Table.Cell className="flex items-center justify-center gap-2">
+                                <button
+                                  
+                                  className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
+                                >
+                                  <CiEdit className="w-6 h-6 hover:scale-110" />
+                                </button>
+                                <button
+                                 onClick={()=> handleView(plan)}
+                                  className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
+                                >
+                                  <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
+                                </button>
+                              </Table.Cell>
+                            </Table.Row>
+                          ))}
+                        </Table.Body>
+                      </Table>
+                    )}
                   </div>
                 </div>
               </div>
@@ -247,6 +125,24 @@ const FamilyEmergencyPlans = () => {
           </div>
         </div>
       </div>
+      <Model isVisible={showModel} onClose={() => setShowModel(false)}>
+        {
+          selectedPlan && (
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-2xl font-bold text-center tracking-tight text-primary pt-5 uppercase">
+                {selectedPlan.title}
+              </h1>
+              <p className="text-center font-semibold mt-0">{selectedPlan.category}</p>
+              <div className="overflow-y-auto max-h-2/3 p-5 text-justify">
+                <p className="font-normal text-gray-700">
+                  {selectedPlan.content}
+                </p>
+              </div>
+            </div>
+          )
+        }
+
+      </Model>
 
       <Footer />
     </>
