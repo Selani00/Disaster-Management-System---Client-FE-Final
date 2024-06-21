@@ -1,33 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { MdDelete } from "react-icons/md";
 
+import { useSelector } from "react-redux";
 import { TextInput, Select, Button } from "flowbite-react";
+import Swal from "sweetalert2";
 
 const CreataAndEditPlans = () => {
   const [formData, setFormData] = useState({});
+  const { currentUser } = useSelector((state) => state.user);
+  const [postIdToDelete, setPostIdToDelete] = useState("");
+
+  useEffect(() => {
+    if (currentUser && currentUser.email) {
+      setFormData((prevData) => ({ ...prevData, email: currentUser.email }));
+    }
+  }, [currentUser]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
-  const createPlans = async () => {
+  const createPlans = async (e) => {
     e.preventDefault();
+    if (!formData.title || !formData.content || !formData.category) {
+      console.log("All fields are required");
+      return;
+    }
     try {
+      const res = await fetch(
+        "http://localhost:5000/api/familyPlans/createPlan",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      if (res.status === 200) {
+        console.log("Success");
+        Swal.fire({
+          icon: "success",
+          title: "Successfully Submitted",
+          text: "Thank you for your submission",
+        }).then((res) => {
+          if (res.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      }
     } catch (err) {
       console.log(err);
     }
   };
-
-  console.log(formData);
 
   return (
     <div className="px-2">
       <h1 className="text-center text-primary text-3xl my-5 font-bold">
         Create a Plan
       </h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={createPlans}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -59,24 +92,11 @@ const CreataAndEditPlans = () => {
           required
           onChange={(value) => setFormData({ ...formData, content: value })}
         />
+
+        <Button gradientDuoTone="purpleToBlue" className="w-full" type="submit">
+          Save
+        </Button>
       </form>
-      <div className="flex items-center justify-center gap-5 px-4 w-full mt-10">
-        <div className="w-5/6">
-          <Button
-            type="button"
-            gradientDuoTone="purpleToBlue"
-            className="w-full"
-            onClick={createPlans}
-          >
-            Save
-          </Button>
-        </div>
-        <div>
-          <button className="bg-red-500 rounded-lg text-white p-1">
-            <MdDelete className="w-6 h-6 hover:scale-110" />
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

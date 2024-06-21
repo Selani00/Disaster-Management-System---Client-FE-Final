@@ -4,11 +4,14 @@ import { useSelector } from "react-redux";
 import MainNav from "../../Components/Commen/Header/MainNav";
 import Footer from "../../Components/Commen/Footer/Footer";
 import Banner from "../../assets/FamilyEmergancyPlan/FamilyBanner.jpg";
-import { Table,Spinner } from "flowbite-react";
+import { Table, Spinner } from "flowbite-react";
 import { CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import CreateOrEditPlan from "../../Components/FamilyEmergencyPlans/CreataAndEditPlans";
 import Model from "../../Components/Commen/Model_1";
+import parse from "html-react-parser";
+import Swal from "sweetalert2";
 
 const FamilyEmergencyPlans = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,7 +19,7 @@ const FamilyEmergencyPlans = () => {
   const [plans, setPlans] = useState([]);
   const [showModel, setShowModel] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-
+  const [isEdit, setIsEdit] = useState(false);
 
   const fetchPlans = async () => {
     try {
@@ -31,7 +34,6 @@ const FamilyEmergencyPlans = () => {
     }
   };
 
-
   useEffect(() => {
     fetchPlans();
   }, []);
@@ -39,7 +41,35 @@ const FamilyEmergencyPlans = () => {
   const handleView = (plan) => {
     setSelectedPlan(plan);
     setShowModel(true);
+  };
 
+  const handleEdit = (plan) => {
+    setSelectedPlan(plan);
+    setIsEdit(true);
+  };
+
+  const handleDelete = async (planId) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this plan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, keep it",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await axios.delete(
+            `http://localhost:5000/api/familyPlans/deletePlan/${planId}`
+          );
+          if (res.status === 200) {
+            fetchPlans();
+          }
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -94,23 +124,29 @@ const FamilyEmergencyPlans = () => {
                         </Table.Head>
                         <Table.Body className="divide-y">
                           {plans.map((plan) => (
-                            <Table.Row className="bg-white" key={plan.planId} >
+                            <Table.Row className="bg-white" key={plan.planId}>
                               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white overflow-hidden">
                                 {plan.title}
                               </Table.Cell>
                               <Table.Cell>{plan.category}</Table.Cell>
                               <Table.Cell className="flex items-center justify-center gap-2">
                                 <button
-                                  
+                                  onClick={() => handleEdit(plan)}
                                   className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
                                 >
                                   <CiEdit className="w-6 h-6 hover:scale-110" />
                                 </button>
                                 <button
-                                 onClick={()=> handleView(plan)}
+                                  onClick={() => handleView(plan)}
                                   className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
                                 >
                                   <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(plan.planId)}
+                                  className="bg-red-500 rounded-lg text-white p-1"
+                                >
+                                  <MdDelete className="w-6 h-6 hover:scale-110" />
                                 </button>
                               </Table.Cell>
                             </Table.Row>
@@ -126,22 +162,21 @@ const FamilyEmergencyPlans = () => {
         </div>
       </div>
       <Model isVisible={showModel} onClose={() => setShowModel(false)}>
-        {
-          selectedPlan && (
-            <div className="flex flex-col items-center justify-center">
-              <h1 className="text-2xl font-bold text-center tracking-tight text-primary pt-5 uppercase">
-                {selectedPlan.title}
-              </h1>
-              <p className="text-center font-semibold mt-0">{selectedPlan.category}</p>
-              <div className="overflow-y-auto max-h-2/3 p-5 text-justify">
-                <p className="font-normal text-gray-700">
-                  {selectedPlan.content}
-                </p>
-              </div>
+        {selectedPlan && (
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-2xl font-bold text-center tracking-tight text-primary pt-5 uppercase">
+              {selectedPlan.title}
+            </h1>
+            <p className="text-center font-semibold mt-0">
+              {selectedPlan.category}
+            </p>
+            <div className="overflow-y-auto max-h-2/3 p-5 text-justify">
+              <p className="font-normal text-gray-700">
+                {parse(selectedPlan.content)}
+              </p>
             </div>
-          )
-        }
-
+          </div>
+        )}
       </Model>
 
       <Footer />
