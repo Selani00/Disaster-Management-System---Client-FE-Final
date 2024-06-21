@@ -47,15 +47,9 @@ const Emargancy = () => {
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setImageFiles(file);
-  //     setImageFileUrl(URL.createObjectURL(file));
-  //   }
-  // };
 
   const handleChange = (e) => {
+    
     const { name, value, type, checked } = e.target;
     setFormdata((prev) => ({
       ...prev,
@@ -86,7 +80,6 @@ const Emargancy = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const submissionData = {
       ...formdata,
       disasterType:
@@ -105,7 +98,6 @@ const Emargancy = () => {
       Swal.fire("Warning!", "Requied filled are empty", "warning");
       return 0;
     }
-
     try {
       const res = await fetch("http://localhost:5000/api/requests/request", {
         method: "POST",

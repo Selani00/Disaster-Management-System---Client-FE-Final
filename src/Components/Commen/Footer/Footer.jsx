@@ -19,12 +19,12 @@ const Footer = () => {
               Contact Us
             </h2>
             <ul className="text-white font-normal text-sm">
-              {contacts_map.map((item) => (
-                <li className="mb-4 flex gap-4  items-center">
+              {contacts_map.map((item, index) => (
+                <li key={index} className="mb-4 flex gap-4 items-center">
                   <i>
                     <item.icon />
                   </i>
-                  <a href={item.link} className=" hover:underline">
+                  <a href={item.link} className="hover:underline">
                     {item.content}
                   </a>
                 </li>
@@ -37,9 +37,9 @@ const Footer = () => {
             <h2 className="mb-6 text-2xl font-semibold text-white uppercase ">
               Related links
             </h2>
-            <ul className="text-white  font-normal text-sm">
-              {webLinks_map.map((item) => (
-                <li className="mb-4">
+            <ul className="text-white font-normal text-sm">
+              {webLinks_map.map((item, index) => (
+                <li key={index} className="mb-4">
                   <a href={item.link} className="hover:underline">
                     {item.content}
                   </a>
@@ -49,44 +49,41 @@ const Footer = () => {
           </div>
 
           {/* Right div */}
-        <div className="text-center">
-          <h2 className="mb-6 text-2xl font-semibold text-white uppercase ">
-            Call Center
-            <br />
-            <span> 1717</span>
-          </h2>
-          <ul className="text-white font-normal text-sm">
-            <li className="mb-4">
-              <a href="#" className="font-medium">
-                Switch to The App
-              </a>
-            </li>
-            {store_map.map((item) => (
+          <div className="text-center">
+            <h2 className="mb-6 text-2xl font-semibold text-white uppercase ">
+              Call Center
+              <br />
+              <span> 1717</span>
+            </h2>
+            <ul className="text-white font-normal text-sm">
               <li className="mb-4">
-                <button>
-                  <span
-                    className="inline-flex px-2 py-1 gap-5 boarder rounded-md"
-                    style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-                  >
-                    <img src={item.image} alt="" className="w-8 h-8 " />
-                    <div className="text-white">
-                      <div className="text-xs">{item.content1}</div>
-                      <div className="-mt-1 font-sans text-xl font-semibold">
-                        {item.content2}
-                      </div>
-                    </div>
-                  </span>
-                </button>
+                <a href="#" className="font-medium">
+                  Switch to The App
+                </a>
               </li>
-            ))}
-          </ul>
+              {store_map.map((item, index) => (
+                <li key={index} className="mb-4">
+                  <button>
+                    <span
+                      className="inline-flex px-2 py-1 gap-5 boarder rounded-md"
+                      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+                    >
+                      <img src={item.image} alt="" className="w-8 h-8 " />
+                      <div className="text-white">
+                        <div className="text-xs">{item.content1}</div>
+                        <div className="-mt-1 font-sans text-xl font-semibold">
+                          {item.content2}
+                        </div>
+                      </div>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-
-        </div>
-
-        
-        <div className="px-4 py-3 bg-secondary md:flex md:items-center md:justify-between ">
+        <div className="px-4 py-3 bg-secondary md:flex md:items-center md:justify-between">
           <span className="text-sm text-black sm:text-center">
             © 2023{" "}
             <a href="https://www.bing.com/search?pglt=43&q=Disaster+management+website+in+sri+lanka&cvid=e63b08b5be554115b7071953d5196b3c&gs_lcrp=EgZjaHJvbWUqBggDEEUYOzIGCAAQRRg5MgYIARAAGEAyBggCEAAYQDIGCAMQRRg7MgYIBBAAGEAyBggFEC4YQDIGCAYQRRg8MgYIBxBFGDwyBggIEEUYPNIBCDQ2NTRqMGoxqAIAsAIA&FORM=ANNTA1&PC=PCMEDGEDP">

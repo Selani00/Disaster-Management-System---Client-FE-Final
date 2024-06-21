@@ -1,10 +1,115 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MainNav from "../../Components/Commen/Header/MainNav";
 import Footer from "../../Components/Commen/Footer/Footer";
 import { TextInput } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
+import axios from "axios";
+import { Spinner } from "flowbite-react";
 
 const Contacts = () => {
+  const [contacts, setContacts] = useState({});
+  const [departmentColors, setDepartmentColors] = useState({});
+  const [hotlines, setHotlines] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const tableHeadings = [
+    "Name",
+    "Title",
+    "Location",
+    "Direct Dial",
+    "Mobile",
+    "Email",
+  ];
+
+  const colors = [
+    "bg-blue-100",
+    "bg-green-100",
+    "bg-yellow-100",
+    "bg-red-100",
+    "bg-purple-100",
+    "bg-pink-100",
+    // Add more colors if needed
+  ];
+
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  const fetchContacts = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post("http://localhost:5000/api/contacts/getAll");
+      const groupedContacts = res.data.reduce((acc, contact) => {
+        const { department } = contact;
+        if (!acc[department]) acc[department] = [];
+        acc[department].push(contact);
+        return acc;
+      }, {});
+      setContacts(groupedContacts);
+
+      // Extract hotlines
+      const departmentHotlines = res.data.reduce((acc, contact) => {
+        const { department, hotline } = contact;
+        if (!acc[department]) acc[department] = hotline;
+        return acc;
+      }, {});
+      setHotlines(departmentHotlines);
+
+      // Shuffle colors and assign to departments
+      const shuffledColors = shuffleArray([...colors]);
+      const colorsForDepartments = Object.keys(groupedContacts).reduce(
+        (acc, department, index) => {
+          acc[department] = shuffledColors[index % shuffledColors.length];
+          return acc;
+        },
+        {}
+      );
+      setDepartmentColors(colorsForDepartments);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  const filterContacts = (contacts) => {
+    if (!searchQuery) return contacts;
+
+    const filtered = {};
+    Object.keys(contacts).forEach((department) => {
+      const matchingContacts = contacts[department].filter((contact) => {
+        return (
+          contact.contactName.toLowerCase().includes(searchQuery) ||
+          contact.title.toLowerCase().includes(searchQuery) ||
+          contact.address.toLowerCase().includes(searchQuery) ||
+          contact.directDial.toLowerCase().includes(searchQuery) ||
+          contact.mobile.toLowerCase().includes(searchQuery) ||
+          contact.email.toLowerCase().includes(searchQuery)
+        );
+      });
+
+      if (matchingContacts.length > 0) {
+        filtered[department] = matchingContacts;
+      }
+    });
+
+    return filtered;
+  };
+
+  const filteredContacts = filterContacts(contacts);
+
   return (
     <>
       <MainNav />
@@ -14,199 +119,97 @@ const Contacts = () => {
             type="text"
             placeholder="Search..."
             rightIcon={AiOutlineSearch}
+            value={searchQuery}
+            onChange={handleSearch}
           />
         </form>
 
-        <div>
-          <div className="bg-blue-100 p-5 m-5">
-            <h1 className="text-base md:text-3xl font-bold text-center">
-              Ministry Of Disaster Managment
-            </h1>
-            <p className="text-sm text-center">
-              Address of the ministry -HEAD Qa
-            </p>
-
-            <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
-              <h1 className="text-red-600 font-semibold text-base md:text-2xl">
-                Hotline:-
-              </h1>
-              <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
-                {" "}
-                1717{" "}
-              </div>
-              <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
-                {" "}
-                117{" "}
-              </div>
+        <>
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-screen">
+              <Spinner aria-label="Extra large spinner example" size="xl" />
+              <p className="mt-4 text-lg font-semibold">Please wait...</p>
             </div>
+          ) : (
+            <div>
+              {Object.keys(filteredContacts).length === 0 ? (
+                <p className="text-center m-5">Sorry, no contacts like this</p>
+              ) : (
+                Object.keys(filteredContacts).map((department) => (
+                  <div
+                    key={department}
+                    className={`p-5 m-10 ${
+                      departmentColors[department] || "bg-gray-100"
+                    }`}
+                  >
+                    <h1 className="text-base md:text-3xl font-bold text-center">
+                      {department}
+                    </h1>
 
-            <div className="overflow-auto rounded-lg shadow">
-              <table className="mt-5 w-full">
-                <thead className="bg-gray-50 border-b-2 border-gray-200">
-                  <tr>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Name
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Title
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Direct Dial
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Mobile
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Email
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  <tr className="bg-white">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Major General(Retired) Udaya Herath
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Director General
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0112136103
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0773 957 896
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <a
-                        className="font-bold hover:underline"
-                        href="mailto:example@example.com"
-                      >
-                        example@example.com
-                      </a>
-                    </td>
-                  </tr>
+                    <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
+                      <h1 className="text-red-600 font-semibold text-base md:text-2xl">
+                        Hotline:-
+                      </h1>
 
-                  <tr className="bg-gray-50">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Mrs.H.Udayangani
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Personal Assistant
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0112136103
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0760 994 808
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <a
-                        className="font-bold hover:underline"
-                        href="mailto:example@example.com"
-                      >
-                        example@example.com
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
+                        {hotlines[department]}
+                      </div>
+                    </div>
+                    <div className="overflow-auto rounded-lg shadow mt-5">
+                      <table className="w-full">
+                        <thead className="bg-gray-50 border-b-2 border-gray-200">
+                          <tr className="text-sm font-semibold tracking-wide text-left">
+                            {tableHeadings.map((heading) => (
+                              <th key={heading} className="p-3">
+                                {heading}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                          {filteredContacts[department].map(
+                            (contact, index) => (
+                              <tr
+                                key={index}
+                                className={
+                                  index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                                }
+                              >
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  {contact.contactName}
+                                </td>
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  {contact.title}
+                                </td>
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  {contact.address}
+                                </td>
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  {contact.directDial}
+                                </td>
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  {contact.mobile}
+                                </td>
+                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                  <a
+                                    className="font-bold hover:underline"
+                                    href={`mailto:${contact.email}`}
+                                  >
+                                    {contact.email}
+                                  </a>
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
-          </div>
-
-          <div className="bg-green-100 p-5 m-5">
-            <h1 className="text-base md:text-3xl font-bold text-center">
-              Sri Lanka Army
-            </h1>
-            <p className="text-sm text-center">
-              Army Headquarters Sri Jayawardenepura Colombo
-            </p>
-
-            <div className="w-full bg-white p-2 md:p-5 mt-5 shadow-lg flex items-center justify-between">
-              <h1 className="text-red-600 font-semibold text-base md:text-2xl">
-                Hotline:-
-              </h1>
-              <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
-                {" "}
-                1717{" "}
-              </div>
-              <div className="bg-red-600 text-white font-bold text-base md:text-2xl p-2 rounded-md">
-                {" "}
-                117{" "}
-              </div>
-            </div>
-
-            <div className="overflow-auto rounded-lg shadow py-5">
-              <table className="mt-5 w-full">
-                <thead className="bg-gray-50 border-b-2 border-gray-200">
-                  <tr>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Name
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Title
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Direct Dial
-                    </th>
-                    <th className=" p-3 text-sm font-semibold tracking-wide text-left">
-                      Mobile
-                    </th>
-                    <th className="p-3 text-sm font-semibold tracking-wide text-left">
-                      Email
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  <tr className="bg-white">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Army Headquarters
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Director General
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      +94112432682-5
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      +94766907749
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <a
-                        className="font-bold hover:underline"
-                        href="mailto:example@example.com"
-                      >
-                        slarmymedia@gmail.com
-                      </a>
-                    </td>
-                  </tr>
-
-                  <tr className="bg-gray-50">
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Mrs.H.Udayangani
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      Personal Assistant
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0112136103
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      0760 994 808
-                    </td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <a
-                        className="font-bold hover:underline"
-                        href="mailto:example@example.com"
-                      >
-                        example@example.com
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+          )}
+        </>
         <Footer />
       </div>
     </>
