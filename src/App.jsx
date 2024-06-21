@@ -13,30 +13,33 @@ import Weather from "./Pages/MainPages/Weather";
 import SafetyTips from "./Pages/Others/SafetyTips";
 import EvacuationRoutes from "./Pages/MainPages/EvacuationRoutes";
 import FamilyEmergencyPlans from "./Pages/Others/FamilyEmergencyPlans";
-
-
+import PrivateRouter from "./Components/Commen/PrivateRouter";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Emargancy" element={<Emargancy />} />
+
         <Route path="/Contacts" element={<Contacts />} />
         <Route path="/Informations" element={<Informations />} />
         <Route path="/News" element={<News />} />
-        <Route path="/Donations" element={<Donations />} />
-        <Route path="/Volunteering" element={<Volunteering />} />
         <Route path="/Weather" element={<Weather />} />
         <Route path="/SafetyTips" element={<SafetyTips />} />
+        <Route path="/Login" element={<UserLogin />} />
+        <Route path="/Registration" element={<UserRegistration />} />
 
-        <Route path="/UserProfile" element={<UserProfile/>} />
-
-        <Route path="/Login" element={<UserLogin/>} />
-        <Route path="/Registration" element={<UserRegistration/>} />
-        <Route path="/EvacuationRoutes" element={<EvacuationRoutes/>} />
-        <Route path="/FamilyEmergencyPlans" element={<FamilyEmergencyPlans/>} />
-        
+        <Route element={<PrivateRouter />}>
+          <Route path="/Donations" element={<Donations />} />
+          <Route path="/Volunteering" element={<Volunteering />} />
+          <Route path="/Emargancy" element={<Emargancy />} />
+          <Route path="/EvacuationRoutes" element={<EvacuationRoutes />} />
+          <Route
+            path="/FamilyEmergencyPlans"
+            element={<FamilyEmergencyPlans />}
+          />
+          <Route path="/UserProfile" element={<UserProfile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

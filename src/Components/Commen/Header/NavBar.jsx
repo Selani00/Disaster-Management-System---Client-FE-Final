@@ -21,20 +21,11 @@ const NavBar = () => {
     }
 
   }
-
-
-  const handleClick = () => {    
-    if(currentUser=== null){
-      navigate("/Login");
-    } else {
-      navigate("/Emargancy");
-    }
-  }
   
   return (
     <Navbar className="bg-primary">
       
-        <Button className="animate-blinkingBg text-white font-semibold " type="button" onClick={handleClick}>
+        <Button className="animate-blinkingBg text-white font-semibold " type="button" onClick={()=>navigate("/Emargancy")}>
           Emargancy
         </Button>
       

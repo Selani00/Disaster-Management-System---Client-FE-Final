@@ -92,7 +92,7 @@ const SafetyTips = () => {
             {data.map((item) => (
               <div
                 key={item.name}
-                className="mb-5 p-6 rounded-2xl cursor-pointer flex flex-col items-center justify-center shadow-lg transform transition-transform hover:scale-105"
+                className="mb-5  bg-gray-200 p-6 rounded-2xl cursor-pointer flex flex-col items-center justify-center shadow-lg transform transition-transform hover:scale-105"
                 onClick={() => handleReadMore(item)}
                 
               >

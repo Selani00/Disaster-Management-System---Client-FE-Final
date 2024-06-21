@@ -51,32 +51,25 @@ const showSlider = () => {
   }
 };
 
-
-
 const Image_Slider = () => {
-
   const [timerEnabled, setTimerEnabled] = useState(true);
   const [lastalerts, setLastAlerts] = useState([]);
-  
 
-  const getAlert = async() => {
+  const getAlert = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/alerts/getAlerts");
+      const res = await axios.post(
+        "http://localhost:5000/api/alerts/getAlerts"
+      );
       const alerts = res.data;
-      
-      
+
       const lastAlert = alerts[alerts.length - 1];
       setLastAlerts(lastAlert);
-        
-        
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
-  
-  }
+  };
 
   useEffect(() => {
-
     getAlert();
 
     if (timerEnabled) {
@@ -85,26 +78,41 @@ const Image_Slider = () => {
       }, 3000);
     }
     return () => {
-      clearInterval(intervalId); 
+      clearInterval(intervalId);
     };
   }, [timerEnabled]);
 
-  
   return (
     <>
       <div className="relative">
         <ul id="slider">
           <li className="h-[60vh] relative ">
-            <img src={image_1} alt="" className="w-full h-full object-cover inset-0" />
+            <img
+              src={image_1}
+              alt=""
+              className="w-full h-full object-cover inset-0"
+            />
           </li>
           <li className="h-[60vh] relative hidden">
-            <img src={image_2} alt="" className="w-full h-full object-cover inset-0" />
+            <img
+              src={image_2}
+              alt=""
+              className="w-full h-full object-cover inset-0"
+            />
           </li>
           <li className="h-[60vh] relative hidden">
-            <img src={image_3} alt="" className="w-full h-full object-cover inset-0" />
+            <img
+              src={image_3}
+              alt=""
+              className="w-full h-full object-cover inset-0"
+            />
           </li>
           <li className="h-[60vh] relative hidden">
-            <img src={image_4} alt="" className="w-full h-full object-cover inset-0" />
+            <img
+              src={image_4}
+              alt=""
+              className="w-full h-full object-cover inset-0"
+            />
           </li>
         </ul>
 
@@ -135,7 +143,7 @@ const Image_Slider = () => {
             <div className="items-center flex justify-center px-3">
               <p
                 className="md:text-sm text-xs text-black overflow-hidden"
-                style={{ maxHeight: "1.5em"  }}
+                style={{ maxHeight: "1.5em" }}
               >
                 {lastalerts ? lastalerts.message : "No Alerts"}
               </p>

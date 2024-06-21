@@ -66,7 +66,7 @@ const NewsItems = ({ setBreaking }) => {
     <div>
       <div className="flex justify-between py-5 px-5 gap-5">
         {/* Left Section */}
-        <div className="w-full sm:w-2/3 bg-white shadow-md">
+        <div className="w-full sm:w-2/3  bg-white shadow-md">
           <div className="px-5 py-3">
             <h1 className="text-primary font-bold md:text-3xl text-lg">
               {selectedItem ? selectedItem.heading : "No News Selected"}
@@ -158,8 +158,8 @@ const NewsItems = ({ setBreaking }) => {
                         className="object-cover w-full h-full"
                       />
                     </div>
-                    <div className="mr-2 py-2">
-                      <h1 className="font-semibold text-black text-base">
+                    <div className="mr-2 py-2  ">
+                      <h1 className="font-semibold text-black text-base overflow-hidden">
                         {newsItems.heading.slice(0, 35)}
                       </h1>
 
