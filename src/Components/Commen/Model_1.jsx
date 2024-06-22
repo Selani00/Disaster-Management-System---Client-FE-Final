@@ -11,7 +11,7 @@ const Model_1 = ({ isVisible, onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[999] bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center"
+      className="fixed inset-0 z-[999] bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center p-2"
       id="wrapper"
       onClick={handleClose}
     >

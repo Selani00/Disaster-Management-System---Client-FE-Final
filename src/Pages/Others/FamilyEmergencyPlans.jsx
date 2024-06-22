@@ -96,7 +96,7 @@ const FamilyEmergencyPlans = () => {
           <div className="border border-gray-300 rounded-xl p-2">
             <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-2">
               <div className="w-full md:w-1/2">
-                <CreateOrEditPlan />
+                <CreateOrEditPlan selectedPlan={selectedPlan} isEdit={isEdit}/>
               </div>
 
               <div className="hidden md:block border-l border-black h-full mx-2"></div>
@@ -132,19 +132,19 @@ const FamilyEmergencyPlans = () => {
                               <Table.Cell className="flex items-center justify-center gap-2">
                                 <button
                                   onClick={() => handleEdit(plan)}
-                                  className="font-medium p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
+                                  className=" p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
                                 >
                                   <CiEdit className="w-6 h-6 hover:scale-110" />
                                 </button>
                                 <button
                                   onClick={() => handleView(plan)}
-                                  className="font-medium p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
+                                  className=" p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
                                 >
                                   <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
                                 </button>
                                 <button
                                   onClick={() => handleDelete(plan.planId)}
-                                  className="bg-red-500 rounded-lg text-white p-1"
+                                  className="bg-red-500 rounded-lg border-2 border-red-500 text-white p-1"
                                 >
                                   <MdDelete className="w-6 h-6 hover:scale-110" />
                                 </button>
@@ -170,7 +170,7 @@ const FamilyEmergencyPlans = () => {
             <p className="text-center font-semibold mt-0">
               {selectedPlan.category}
             </p>
-            <div className="overflow-y-auto max-h-2/3 p-5 text-justify">
+            <div className="overflow-y-auto max-h-2/3 p-2 text-justify">
               <p className="font-normal text-gray-700">
                 {parse(selectedPlan.content)}
               </p>
