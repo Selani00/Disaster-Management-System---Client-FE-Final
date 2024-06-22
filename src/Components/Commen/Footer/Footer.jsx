@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className="max-w-full bg-primary bottom-0 left-0 right-0">
       <div className="mx-auto w-full max-w-screen-xl">
         {/* Left div */}
-        <div className="grid grid-cols-1 gap-8 px-10 py-1 lg:py-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 px-10 py-4 md:py-1 lg:py-8 md:grid-cols-3">
           <div className="text-center">
             <h2 className="mb-6 text-lg font-semibold text-white uppercase ">
               Contact Us
@@ -33,14 +33,14 @@ const Footer = () => {
           </div>
 
           {/* Center div */}
-          <div className="text-center">
+          <div className="text-center md:block hidden">
             <h2 className="mb-6 text-2xl font-semibold text-white uppercase ">
               Related links
             </h2>
             <ul className="text-white font-normal text-sm">
               {webLinks_map.map((item, index) => (
                 <li key={index} className="mb-4">
-                  <a href={item.link} className="hover:underline">
+                  <a href={item.link} className="hover:underline" target="_blank">
                     {item.content}
                   </a>
                 </li>

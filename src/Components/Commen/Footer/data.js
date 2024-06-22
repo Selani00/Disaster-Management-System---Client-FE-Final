@@ -28,23 +28,23 @@ export const contacts_map = [
 
 export const webLinks_map = [
   {
-    link: "www.google.com",
+    link: "https://www.redcross.lk/",
     content: "Sri  Lanka Red Cross Society",
   },
   {
-    link: "www.google.com",
+    link: "https://www.meteo.gov.lk/index.php?option=com_content&lang=en",
     content: "Department of Meteorology",
   },
   {
-    link: "www.google.com",
+    link: "https://hpb.health.gov.lk/en",
     content: "Health Promotion Bureau",
   },
   {
-    link: "www.google.com",
+    link: "https://www.police.lk/",
     content: "Sri Lanka Police",
   },
   {
-    link: "www.google.com",
+    link: "https://www.army.lk/",
     content: "Sri Lanka Army",
   },
 ];

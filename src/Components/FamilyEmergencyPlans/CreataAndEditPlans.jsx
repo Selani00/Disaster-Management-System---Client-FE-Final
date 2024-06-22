@@ -127,10 +127,13 @@ const CreataAndEditPlans = ({ selectedPlan, isEdit }) => {
             <option disabled value="">
               Select a category
             </option>
-            <option value="technology">Technology</option>
-            <option value="lifestyle">Lifestyle</option>
-            <option value="travel">Travel</option>
-            <option value="food">Food</option>
+            <option value="technology">Emergency Contacts</option>
+            <option value="lifestyle">Home Preparation</option>
+            <option value="travel">Special Needs</option>
+            <option value="food">Emergency Supplies</option>
+            <option value="food">Evacuation Plan</option>
+            <option value="food">Backup Plans</option>
+            <option value="food">Other</option>
           </Select>
         </div>
         <ReactQuill
