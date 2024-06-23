@@ -22,7 +22,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import app from "../../firebase";
-import { set } from "firebase/database";
 
 const Emargancy = () => {
   const [latitude, setLatitude] = useState("");
@@ -33,7 +32,7 @@ const Emargancy = () => {
     requesterName: "",
     disasterType: "",
     disasterLocation: "",
-    disasterLocationLatLan: [0, 0],
+    //disasterLocationLatLan: [0, 0],
     affectedCount: "",
     image: "",
     medicalNeed: false,
@@ -58,7 +57,8 @@ const Emargancy = () => {
     console.log(formdata);
   };
 
-  const getCurrentLocation = () => {
+  useEffect(() => {
+
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       setLatitude(latitude);
@@ -68,7 +68,9 @@ const Emargancy = () => {
         disasterLocationLatLan: [latitude, longitude],
       }));
     });
-  };
+
+  }, []);
+ 
 
   const handleOtherDisasterChange = (e) => {
     setOtherDisaster(e.target.value);
@@ -77,6 +79,7 @@ const Emargancy = () => {
       disasterType: "Other",
     }));
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,7 +102,7 @@ const Emargancy = () => {
       return 0;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/requests/request", {
+      const res = await fetch("http://localhost:8000/api/requests/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -201,26 +204,7 @@ const Emargancy = () => {
                 />
               </div>
 
-              <div>
-                <Label value="Current Location"></Label>
-                <div className="flex justify-between items-center gap-2">
-                  <TextInput
-                    type="text"
-                    placeholder="Current location"
-                    className="flex-grow"
-                    value={latitude + "," + longitude}
-                    readOnly
-                    // readOnly
-                  />
-                  <button
-                    type="button"
-                    className="text-white bg-primary p-2 rounded-xl"
-                    onClick={getCurrentLocation}
-                  >
-                    <FaMapMarkedAlt className="h-5  w-5" />
-                  </button>
-                </div>
-              </div>
+              
             </div>
 
             <div className="grid gap-10 mb-2 md:grid-cols-2 p-5 ">
@@ -319,6 +303,7 @@ const Emargancy = () => {
                       <CircularProgressbar
                         value={imageUploadProgress}
                         text={`${imageUploadProgress || 0}`}
+                        className="text-2xl font-bold text-primary"
                       />
                     </div>
                   ) : (

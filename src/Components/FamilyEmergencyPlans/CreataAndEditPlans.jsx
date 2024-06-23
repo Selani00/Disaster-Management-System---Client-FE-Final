@@ -42,7 +42,7 @@ const CreataAndEditPlans = ({ selectedPlan, isEdit }) => {
       return;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/familyPlans/createPlan", {
+      const res = await fetch("http://localhost:8000/api/familyPlans/createPlan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const CreataAndEditPlans = ({ selectedPlan, isEdit }) => {
   const editPlans = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/familyPlans/updatePlan", {
+      const res = await fetch("http://localhost:8000/api/familyPlans/updatePlan", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

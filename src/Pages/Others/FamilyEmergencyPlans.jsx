@@ -25,12 +25,13 @@ const FamilyEmergencyPlans = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/api/familyPlans/getPlans/${currentUser.email}`
+        `http://localhost:8000/api/familyPlans/getPlans/${currentUser.email}`
       );
       setPlans(res.data);
       setLoading(false);
     } catch (err) {
       console.log(err);
+      setLoading(false); // Ensure loading is false in case of error
     }
   };
 
@@ -60,7 +61,7 @@ const FamilyEmergencyPlans = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await axios.delete(
-            `http://localhost:5000/api/familyPlans/deletePlan/${planId}`
+            `http://localhost:8000/api/familyPlans/deletePlan/${planId}`
           );
           if (res.status === 200) {
             fetchPlans();
@@ -81,8 +82,8 @@ const FamilyEmergencyPlans = () => {
             src={Banner}
             className="h-[35vh] w-full object-cover object-center"
           />
-          <div className=" absolute inset-0 py-10 bg-black bg-opacity-45 flex-row items-center justify-center text-center px-5 md:px-20">
-            <p className="text-white  font-extrabold  text-2xl md:text-4xl p-4 ">
+          <div className="absolute inset-0 py-10 bg-black bg-opacity-45 flex-row items-center justify-center text-center px-5 md:px-20">
+            <p className="text-white font-extrabold text-2xl md:text-4xl p-4">
               Family Emergency Plans
             </p>
             <p className="text-white font-semibold text-xs md:text-sm">
@@ -96,7 +97,7 @@ const FamilyEmergencyPlans = () => {
           <div className="border border-gray-300 rounded-xl p-2">
             <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-2">
               <div className="w-full md:w-1/2">
-                <CreateOrEditPlan selectedPlan={selectedPlan} isEdit={isEdit}/>
+                <CreateOrEditPlan selectedPlan={selectedPlan} isEdit={isEdit} />
               </div>
 
               <div className="hidden md:block border-l border-black h-full mx-2"></div>
@@ -112,6 +113,12 @@ const FamilyEmergencyPlans = () => {
                           aria-label="Extra large spinner example"
                           size="xl"
                         />
+                      </div>
+                    ) : plans.length === 0 ? (
+                      <div className="text-center">
+                        <p className="text-gray-600 font-bold ">
+                          You have no plans. Create a new plan.
+                        </p>
                       </div>
                     ) : (
                       <Table striped>
@@ -132,13 +139,13 @@ const FamilyEmergencyPlans = () => {
                               <Table.Cell className="flex items-center justify-center gap-2">
                                 <button
                                   onClick={() => handleEdit(plan)}
-                                  className=" p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
+                                  className="p-1 border-green-500 border-2 rounded-lg bg-green-500 text-white"
                                 >
                                   <CiEdit className="w-6 h-6 hover:scale-110" />
                                 </button>
                                 <button
                                   onClick={() => handleView(plan)}
-                                  className=" p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
+                                  className="p-1 border-blue-500 border-2 rounded-lg bg-blue-500 text-white"
                                 >
                                   <MdOutlineRemoveRedEye className="w-6 h-6 hover:scale-110" />
                                 </button>

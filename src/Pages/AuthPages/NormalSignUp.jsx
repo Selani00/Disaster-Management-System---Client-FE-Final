@@ -101,6 +101,16 @@ const NormalSignUp = () => {
               </div>
 
               <div>
+                <Label value="Telephone Number"></Label>
+                <TextInput
+                  type="tel"
+                  placeholder="07XXXXXXXX"
+                  id="telephoneNumber"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
                 <Label value="Password"></Label>
                 <TextInput
                   type="password"
