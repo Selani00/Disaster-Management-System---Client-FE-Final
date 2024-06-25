@@ -46,7 +46,6 @@ const Services = () => {
     }
   }, [quary]);
 
-  console.log(weather);
 
   return (
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto my-12">

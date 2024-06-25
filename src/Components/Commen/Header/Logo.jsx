@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <>
       <div className="relative  overflow-hidden bg-white px-8 py-2">
-        <div className="-mx-4 flex flex-wrap items-center">
+        <div className="-mx-4 flex flex-wrap items-center justify-between">
           <div className="w-full px-4 lg:w-1/2 md:w-1/2">
             <div className="text-center ">
               <a
@@ -19,15 +19,7 @@ const Logo = () => {
               </a>
             </div>
           </div>
-          <div class="relative w-full lg:w-1/2 md:w-1/2 mt-5 px-10 hidden md:block">
-            <form>
-              <TextInput
-                type="text"
-                placeholder="Search..."
-                rightIcon={AiOutlineSearch}
-              />
-            </form>
-          </div>
+          
         </div>
       </div>
     </>

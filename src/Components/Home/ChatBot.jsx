@@ -21,7 +21,7 @@ const ChatBot = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4800/api/chatbot",
+        "http://localhost:8000/api/chatbot",
         {
           content: content,
           role: "user",

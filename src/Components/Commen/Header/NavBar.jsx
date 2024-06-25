@@ -31,9 +31,6 @@ const NavBar = () => {
       
 
       <div className="flex gap-2 md:order-2">
-        <div className="text-white border hover:border-white border-transparent  rounded-full p-2 transition duration-300 mr-5">
-          <IoNotifications className="w-6 h-6 cursor-pointer" />
-        </div>
 
         {currentUser ? (
           <>
