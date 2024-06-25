@@ -1,19 +1,8 @@
-import Weather from "../../assets/HomePage/Services_Images/Weather.png";
-import News from "../../assets/HomePage/Services_Images/News.png";
-import Map from "../../assets/HomePage/Services_Images/Map.png";
-
-
 import Donation from "../../assets/HomePage/Services_Images/Donation.png"
 import Family from "../../assets/HomePage/Services_Images/Full_Family.png"
 import Light_On from "../../assets/HomePage/Services_Images/Light_On.png"
 import Volunteering from "../../assets/HomePage/Services_Images/Volunteering.png"
 
-
-export const Services_map = [
-    { id: 1, title: "Weather Forecast", image: Weather, link: "/Weather" },
-    { id: 2, title: "News", image: News, link: "/News" },
-    { id: 3, title: "Evacuation Routes", image: Map, link: "/EvacuationRoutes" },
-  ];
 
 
 export const More_Services_map = [
