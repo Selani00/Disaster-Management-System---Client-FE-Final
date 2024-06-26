@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "../../Components/Commen/Header/MainNav";
-import { TextInput, Button, Alert } from "flowbite-react";
+import { TextInput } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutSuccess } from "../../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -35,22 +35,25 @@ const UserProfile = () => {
               id="username"
               placeholder="Username"
               defaultValue={currentUser.userName}
-              //onChange={handleChange}
+              disabled
+            
             />
             <TextInput
               type="email"
               id="email"
               placeholder="Email"
               defaultValue={currentUser.email}
-              //onChange={handleChange}
+              disabled
+              
             />
 
             <TextInput
               type="text"
               id="address"
               placeholder="Address"
-              defaultValue={currentUser.email}
-              //onChange={handleChange}
+              defaultValue={currentUser.address}
+              disabled
+              
             />
 
             <TextInput
@@ -58,32 +61,24 @@ const UserProfile = () => {
               id="telephoneNumber"
               placeholder="07XXXXXXXXX"
               defaultValue={currentUser.telephoneNumber}
-              //onChange={handleChange}
+              disabled
+              
             />
             <TextInput
               type="password"
               id="password"
               placeholder="**********"
+              disabled
 
-              //onChange={handleChange}
             />
-
-            <Button
-              type="submit"
-              outline gradientDuoTone="cyanToBlue"
-              //disabled={loading || imageFileUploading}
-            >
-              Update
-              {/* {loading || imageFileUploading ? "Loading..." : "Update"} */}
-            </Button>
           </form>
 
           <div className="text-red-500 flex justify-between mt-5 hover:underline">
             <span
-              //onClick={() => setShowModel(true)}
+           
               className="cursor-pointer"
             >
-              Delete Accout
+              
             </span>
             <span onClick={handleSignOut} className="cursor-pointer">
               Sign Out

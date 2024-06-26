@@ -225,6 +225,9 @@ const Emargancy = () => {
                   <option>Flood</option>
                   <option>Tsunami</option>
                   <option>House Fire</option>
+                  <option>Droughts</option>
+                  <option>Landslides</option>
+                  <option>Earthquakes</option>
                   <option>Other</option>
                 </Select>
               </div>
