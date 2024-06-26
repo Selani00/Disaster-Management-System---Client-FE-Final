@@ -19,7 +19,15 @@ const Logo = () => {
               </a>
             </div>
           </div>
-          
+          <div className="md:block hidden w-1/2">
+            <TextInput
+              id="text"
+              type="text"
+              rightIcon={AiOutlineSearch}
+              placeholder="search"
+              required
+            />
+          </div>
         </div>
       </div>
     </>

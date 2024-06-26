@@ -24,7 +24,7 @@ const Services = () => {
   };
 
   const getNews = async () => {
-    const response = await axios.post("http://localhost:5000/api/news/getNews");
+    const response = await axios.post("http://localhost:8000/api/news/getNews");
     const filteredNews = response.data.filter((newsItem) => newsItem.show);
     if (filteredNews.length > 0) {
       setSelectedItem(filteredNews[filteredNews.length - 1]);

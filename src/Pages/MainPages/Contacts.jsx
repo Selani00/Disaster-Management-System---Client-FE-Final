@@ -43,7 +43,7 @@ const Contacts = () => {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/contacts/getAll");
+      const res = await axios.post("http://localhost:8000/api/contacts/getAll");
       const groupedContacts = res.data.reduce((acc, contact) => {
         const { department } = contact;
         if (!acc[department]) acc[department] = [];
