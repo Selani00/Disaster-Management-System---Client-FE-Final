@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import NavBar from "../../Components/Commen/Header/SimpleNav";
-import { FaMapMarkedAlt } from "react-icons/fa";
 import {
   Label,
   TextInput,
@@ -24,15 +23,12 @@ import {
 import app from "../../firebase";
 
 const Emargancy = () => {
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
   const navigate = useNavigate();
 
   const [formdata, setFormdata] = useState({
     requesterName: "",
     disasterType: "",
     disasterLocation: "",
-    //disasterLocationLatLan: [0, 0],
     affectedCount: "",
     image: "",
     medicalNeed: false,
@@ -42,35 +38,26 @@ const Emargancy = () => {
 
   // Image upload
   const [imageFile, setImageFiles] = useState(null);
-  // const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
 
-
   const handleChange = (e) => {
-    
     const { name, value, type, checked } = e.target;
     setFormdata((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    console.log(formdata);
   };
 
   useEffect(() => {
-
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      setLatitude(latitude);
-      setLongitude(longitude);
       setFormdata((prev) => ({
         ...prev,
         disasterLocationLatLan: [latitude, longitude],
       }));
     });
-
   }, []);
- 
 
   const handleOtherDisasterChange = (e) => {
     setOtherDisaster(e.target.value);
@@ -79,7 +66,6 @@ const Emargancy = () => {
       disasterType: "Other",
     }));
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,14 +81,13 @@ const Emargancy = () => {
       !formdata.requesterName ||
       !formdata.disasterType ||
       !formdata.disasterLocation ||
-      !formdata.disasterLocationLatLan.length ||
       !formdata.affectedCount
     ) {
       Swal.fire("Warning!", "Requied filled are empty", "warning");
       return 0;
     }
     try {
-      const res = await fetch("http://localhost:8000/api/requests/request", {
+      const res = await fetch("http://localhost:5000/api/requests/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +141,7 @@ const Emargancy = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImageUploadProgress(null);
             setImageUploadError(null);
-            setFormdata({...formdata, image: downloadURL});
+            setFormdata({ ...formdata, image: downloadURL });
           });
         }
       );
@@ -169,7 +154,6 @@ const Emargancy = () => {
   return (
     <>
       <NavBar />
-
       <div className="pt-20 mt-6">
         <div className="px-5 md:px-10 mb-10">
           <form
@@ -203,8 +187,6 @@ const Emargancy = () => {
                   onChange={handleChange}
                 />
               </div>
-
-              
             </div>
 
             <div className="grid gap-10 mb-2 md:grid-cols-2 p-5 ">

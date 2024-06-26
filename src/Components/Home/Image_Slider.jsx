@@ -53,25 +53,8 @@ const showSlider = () => {
 
 const Image_Slider = () => {
   const [timerEnabled, setTimerEnabled] = useState(true);
-  const [lastalerts, setLastAlerts] = useState([]);
-
-  const getAlert = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/alerts/getAlerts"
-      );
-      const alerts = res.data;
-
-      const lastAlert = alerts[alerts.length - 1];
-      setLastAlerts(lastAlert);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
-    getAlert();
-
     if (timerEnabled) {
       intervalId = setInterval(() => {
         next();
@@ -145,7 +128,7 @@ const Image_Slider = () => {
                 className="md:text-sm text-xs text-black overflow-hidden"
                 style={{ maxHeight: "1.5em" }}
               >
-                {lastalerts ? lastalerts.message : "No Alerts"}
+                No Alerts
               </p>
             </div>
           </div>

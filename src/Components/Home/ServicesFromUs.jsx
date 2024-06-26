@@ -1,5 +1,5 @@
-import React from 'react'
-import {More_Services_map} from "./Data"
+import React from 'react';
+import { More_Services_map } from './Data';
 
 const ServicesFromUs = () => {
   return (
@@ -10,11 +10,10 @@ const ServicesFromUs = () => {
         </h2>
       </div>
 
-      <div className="mt-10 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:w-11/12 mx-auto gap-10 px-2 ">
+      <div className="mt-10 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:w-11/12 mx-auto gap-10 px-2">
         {More_Services_map.map((service) => (
-          <a href={service.link}>
+          <a key={service.id} href={service.link}>
             <div
-              key={service.id}
               className="px-4 py-8 text-center md:w-[300px] mx-auto md:h-80 rounded-md cursor-pointer
                    hover:-translate-y-5 hover:border-b-4 hover:border-primary transition-all duration-300 flex items-center justify-center h-full 
                    bg-white shadow-md"
@@ -33,7 +32,7 @@ const ServicesFromUs = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ServicesFromUs
+export default ServicesFromUs;

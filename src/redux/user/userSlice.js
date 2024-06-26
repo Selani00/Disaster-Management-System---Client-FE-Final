@@ -17,7 +17,7 @@ const userSlice = createSlice({
             state.loading=true; 
             state.error=null; // if there is an error, it will be cleared
         },
-        signInSccuss:(state,action)=>{
+        signInSuccess:(state,action)=>{
             state.currentUser= action.payload;
             state.loading=false;
             state.error=null;
@@ -36,7 +36,7 @@ const userSlice = createSlice({
 
 });
 
-export const {signInStart,signInSccuss,signInFailure,signOutSuccess}= userSlice.actions;
+export const {signInStart,signInSuccess,signInFailure,signOutSuccess}= userSlice.actions;
 
 // To use the state in the components
 export default userSlice.reducer;
