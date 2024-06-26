@@ -7,7 +7,7 @@ const Languages = () => {
  
 
         <div className="ml-auto text-white font-bold">
-          <h3>Call center 1717</h3>
+          <h3>Call center 117</h3>
         </div>
       </div>
     </>
