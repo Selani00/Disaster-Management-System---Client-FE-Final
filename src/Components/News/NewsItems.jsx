@@ -12,7 +12,7 @@ const NewsItems = ({ setBreaking }) => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/news/getNews"
+        "http://localhost:8000/api/news/getNews"
       );
 
       const filteredNews = response.data.filter((newsItem) => newsItem.show);

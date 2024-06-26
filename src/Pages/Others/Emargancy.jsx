@@ -299,11 +299,11 @@ const Emargancy = () => {
                   disabled={imageUploadProgress}
                 >
                   {imageUploadProgress ? (
-                    <div className="w-16 h-16">
+                    <div className="w-16 h-16 flex items-center justify-center">
                       <CircularProgressbar
                         value={imageUploadProgress}
                         text={`${imageUploadProgress || 0}`}
-                        className="text-2xl font-bold text-primary"
+                        className="text-2xl font-bold text-primary "
                       />
                     </div>
                   ) : (
