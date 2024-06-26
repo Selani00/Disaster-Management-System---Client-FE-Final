@@ -87,7 +87,7 @@ const Emargancy = () => {
       return 0;
     }
     try {
-      const res = await fetch("http://localhost:5000/api/requests/request", {
+      const res = await fetch("https://dms-server-goil.onrender.com/api/requests/request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

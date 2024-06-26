@@ -62,7 +62,7 @@ const Volunteering = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/create", {
+      const res = await fetch("https://dms-server-goil.onrender.com/api/volunteers/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

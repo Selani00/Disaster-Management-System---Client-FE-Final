@@ -21,7 +21,7 @@ const ChatBot = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/chatbot",
+        "https://dms-server-goil.onrender.com/api/chatbot",
         {
           content: content,
           role: "user",

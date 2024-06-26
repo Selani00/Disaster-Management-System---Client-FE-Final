@@ -25,7 +25,7 @@ const FamilyEmergencyPlans = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:8000/api/familyPlans/getPlans/${currentUser.email}`
+        `https://dms-server-goil.onrender.com/api/familyPlans/getPlans/${currentUser.email}`
       );
       setPlans(res.data);
       setLoading(false);
@@ -61,7 +61,7 @@ const FamilyEmergencyPlans = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await axios.delete(
-            `http://localhost:8000/api/familyPlans/deletePlan/${planId}`
+            `https://dms-server-goil.onrender.com/api/familyPlans/deletePlan/${planId}`
           );
           if (res.status === 200) {
             fetchPlans();
